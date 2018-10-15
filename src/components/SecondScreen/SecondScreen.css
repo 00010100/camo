@@ -1,0 +1,13 @@
+.item-list .list-group-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.item-list .list-group-item span {
+  margin-right: 5px;
+}
+
+.item-list .list-group-item input {
+  width: 40px;
+}

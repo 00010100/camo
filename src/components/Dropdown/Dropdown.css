@@ -1,0 +1,13 @@
+.dropdown-container {
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dropdown-container label {
+  margin-right: 10px;
+}
+
+.dropdown-container select {
+  max-width: 500px;
+  margin: auto;
+}
