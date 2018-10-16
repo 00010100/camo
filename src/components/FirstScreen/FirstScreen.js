@@ -14,9 +14,10 @@ export default class FirstScreen extends Component {
 
   toNextScreen = () => {
     const { titleIndex, sectionIndex } = this.state;
-    const { nextStep } = this.props;
+    const { nextStep, getIndexes } = this.props;
 
-    nextStep({ titleIndex, sectionIndex });
+    getIndexes({ titleIndex, sectionIndex });
+    nextStep();
   };
 
   choiceTitle = (titleIndex) => {
@@ -34,9 +35,7 @@ export default class FirstScreen extends Component {
 
     return (
       <div className="jumbotron">
-        <h1 align="center">
-          Welcome to Camouflage
-        </h1>
+        <h1 align="center">Welcome to Camouflage</h1>
         <p className="lead" align="center">
           Which section would you like to review?
         </p>

@@ -1,4 +1,4 @@
-export const titles= [
+export const titles = [
   'PT A February 1996',
   'PT B February 1999',
   'PT C February 2000',
@@ -92,7 +92,12 @@ export const titles= [
   'PT 85 September 2018',
 ];
 
-export const sections = ['SECTION I', 'SECTION II', 'SECTION III', 'SECTION IV'];
+export const sections = [
+  'SECTION I',
+  'SECTION II',
+  'SECTION III',
+  'SECTION IV',
+];
 
 export const questions = {
   0: {
@@ -175,8 +180,39 @@ export const questions = {
   },
 };
 
+const decoy = [
+  '1-2',
+  '1-2',
+  '1-2',
+  '2-3',
+  '2-3',
+  '2-4',
+  '2-4',
+  '2-4',
+  '2-3',
+  '2-3',
+  '1-3',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '1-2',
+  '0',
+  '0',
+  '0',
+  '0',
+  '0',
+  '0',
+];
+
 export default {
   titles,
   sections,
   questions,
+  decoy,
 };

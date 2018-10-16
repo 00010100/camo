@@ -1,13 +1,23 @@
+.screen-wrap {
+  padding: 20px 10px;
+}
+
+.item-list {
+  margin-bottom: 20px;
+}
+
 .item-list .list-group-item {
-  cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.item-list .list-group-item span {
-  margin-right: 5px;
-}
-
 .item-list .list-group-item input {
   width: 40px;
+}
+
+.list-item-box {
+  display: flex;
+  width: 70px;
+  justify-content: space-between;
+  align-items: center;
 }

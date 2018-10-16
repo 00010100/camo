@@ -23,25 +23,15 @@ export default class SectionChoice extends Component {
 
       return (
         <label className={`btn btn-info ${selected}`} key={item}>
-          <input type="radio" name="options" onChange={this.handleRadio} value={index} /> {index + 1}
+          <input
+            type="radio"
+            name="options"
+            onChange={this.handleRadio}
+            value={index}
+          />{' '}
+          {index + 1}
         </label>
       );
-
-      // return (
-      //   <div key={item} className="radioPad">
-      //     <label className={isCurrent ? 'radioPad__wrapper radioPad__wrapper--selected' : 'radioPad__wrapper'}>
-      //       <input
-      //         className="radioPad__radio"
-      //         type="radio"
-      //         name="sectionTypes"
-      //         id={item}
-      //         value={index}
-      //         onChange={this.handleRadio}
-      //       />
-      //       {index + 1}
-      //     </label>
-      //   </div>
-      // );
     });
   }
 
@@ -49,7 +39,10 @@ export default class SectionChoice extends Component {
     return (
       <React.Fragment>
         <p align="center">Section: </p>
-        <div className="btn-group btn-group-toggle button-container" data-toggle="buttons">
+        <div
+          className="btn-group btn-group-toggle button-container"
+          data-toggle="buttons"
+        >
           {this.renderSection()}
         </div>
       </React.Fragment>
