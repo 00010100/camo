@@ -42,7 +42,7 @@ export default class FirstScreen extends Component {
         <hr className="my-4" />
         <Dropdown titles={titles} choiceTitle={this.choiceTitle} />
         <SectionChoice sections={sections} choiceSection={this.choiceSection} />
-        <Button label="Submit" toNextScreen={this.toNextScreen} />
+        <Button label="Submit" callback={this.toNextScreen} />
       </div>
     );
   }

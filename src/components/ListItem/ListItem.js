@@ -97,7 +97,7 @@ export default class ListItem extends Component {
         <ul className="item-list list-group">{this.renderQuestions()}</ul>
         <Button
           label="Submit"
-          toNextScreen={this.toNextScreen}
+          callback={this.toNextScreen}
           disabled={!isDisabled}
         />
       </React.Fragment>

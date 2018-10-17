@@ -2,13 +2,13 @@ import React from 'react';
 
 import './Button.css';
 
-const Button = ({ label, disabled, toNextScreen }) => {
+const Button = ({ label, disabled, callback }) => {
   return (
     <div className="btn-container">
       <button
         type="button"
         className="btn btn-primary"
-        onClick={toNextScreen}
+        onClick={callback}
         disabled={disabled}
       >
         {label}

@@ -33,40 +33,16 @@ export default class App extends Component {
   };
 
   asd = () => {
-    const { renderTrueAnswers, answersToArray  } = this.helpers;
     const { indexes } = this.state;
-    const trueAnwers = this.helpers.renderTrueAnswers(mockData, indexes);
-    const stAnswers = this.helpers.answersToArray(this.state.answers);
-    const allAnsw = this.helpers.getAllAnswers(trueAnwers, stAnswers);
 
+    const ALGO = this.helpers.algorithm(mockData, indexes, this.state.answers);
 
-    let arr = new Array(25);
-
-    arr.fill(0, 0, arr.length);
-
-    allAnsw.map((el, index) => {
-      if (el === 'no') {
-
-        console.log(arr[index])
-        if (arr[index] < 1) {
-          arr[index] += 1;
-          arr[index + 1] += 0.5;
-          console.log(arr[index])
-        }
-    
-      }
-
-      arr[index] += 0;
-    })
-
-    console.log(arr)
+    console.log('ALGO', ALGO)
   };
 
   getStepContent = (step) => {
     const { indexes } = this.state;
-    const questions = this.helpers.renderQuestions(mockData, indexes);
-    const trueAnwers = this.helpers.renderTrueAnswers(mockData, indexes);
-    const stAnswers = this.helpers.answersToArray(this.state.answers);
+    const questions = this.helpers._renderQuestions(mockData, indexes);
 
     this.asd();
 

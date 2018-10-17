@@ -180,7 +180,7 @@ export const questions = {
   },
 };
 
-const decoy = [
+export const decoy = [
   '1-2',
   '1-2',
   '1-2',
