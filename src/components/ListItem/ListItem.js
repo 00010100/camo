@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 import Button from '../Button';
 import './ListItem.css';
@@ -14,7 +15,9 @@ export default class ListItem extends Component {
   }
 
   componentDidMount() {
-    console.log('ListItem', this.props);
+    // console.log('ListItem', this.props);
+    // console.log('PROPS ANSWERS', this.props.list);
+    // console.log('STATE ANSWERS', this.state.answers);
   }
 
   handleChange = (index) => (evt) => {
@@ -25,37 +28,67 @@ export default class ListItem extends Component {
       const other = /^.(.*)/.exec(val)[1];
       value = val.replace(other, '');
 
-      if (this.refs[index + 1] !== undefined) {
-        this.refs[index + 1].focus();
-      }
+      const refs = Object.keys(this.refs).map((k, i, arr) => arr[i]);
+
+      _.map(refs, (el, i) => {
+        if (parseInt(el) === index) {
+          if (refs[i + 1] !== undefined) {
+            this.refs[refs[i + 1]].focus();
+          }
+        }
+      });
     }
 
-    const newAnswers = this.state.answers.map((item, idx) => {
-      if (index !== idx) return item;
+    const obj = _.cloneDeep(this.state.answers);
 
-      return { ...item, value };
-    });
+    const answers = Object.assign({}, obj, { [index]: { value } });
 
-    this.setState({ answers: newAnswers });
+    // const a= Object.keys(obj).map((key) => {
+    //   const idx = parseInt(key);
+    //   console.log(idx);
+
+    //   if (index !== idx) {
+    //     console.log(obj[key].value);
+    //     return obj[key].value = ''
+    //   } else {
+    //     console.log(obj[key].value = value)
+    //     return obj[key].value = value;
+    //   }
+
+    //   // return obj
+    // });
+
+    // const newAnswers = _.map(this.state.answers, (item, i) => {
+    //   console.log('**', item, i)
+    //   const idx = parseInt(i);
+
+    //   if (index !== idx) return item;
+
+    //   return { ...item, value };
+    // });
+
+    // const a = _.assignIn({}, newAnswers);
+    this.setState({ answers });
   };
 
   renderQuestions = () => {
-    const { list } = this.props;
     const { answers } = this.state;
 
-    return list.map((item, index) => {
+    return Object.keys(answers).map((key) => {
+      const idx = parseInt(key);
+
       return (
-        <li className="list-group-item" key={index}>
+        <li className="list-group-item" key={idx}>
           <span className="list-item-box">
-            <span>{index + 1}</span>
+            <span>{`${parseInt(idx) + 1}`}</span>
             <input
-              ref={index}
+              ref={idx}
               onKeyPress={this.handleKeyPress}
               onPaste={this.handlePaste}
               className="form-control"
               type="text"
-              value={answers[index].value}
-              onChange={this.handleChange(index)}
+              value={answers[idx].value}
+              onChange={this.handleChange(idx)}
             />
           </span>
         </li>
@@ -83,23 +116,19 @@ export default class ListItem extends Component {
     const { nextStep, callback } = this.props;
     const { answers } = this.state;
 
-    callback(answers)
+    callback(answers);
     nextStep();
   };
 
   render() {
     const { answers } = this.state;
-    
-    const isDisabled = answers.every(({ value }) => value !== '');
+
+    const isDisabled = _.every(answers, ({ value }) => value !== '');
 
     return (
       <React.Fragment>
         <ul className="item-list list-group">{this.renderQuestions()}</ul>
-        <Button
-          label="Submit"
-          callback={this.toNextScreen}
-          disabled={!isDisabled}
-        />
+        <Button label="Submit" callback={this.toNextScreen} disabled={!isDisabled} />
       </React.Fragment>
     );
   }

@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import ListItem from '../ListItem';
 import './SecondScreen.css';
 
 export default class SecondScreen extends Component {
-  createState = (list) => list.map(() => ({ value: '' }));
+  createState = (obj) => {
+    for (let i in obj) {
+      obj[i] = {value: ''}
+    }
+    return obj;
+  };
 
   render() {
     const { questions, nextStep, getAnswers } = this.props;
@@ -13,7 +19,6 @@ export default class SecondScreen extends Component {
     return (
       <div className="screen-wrap">
         <ListItem
-          list={questions}
           answers={this.createState(questions)}
           nextStep={nextStep}
           callback={getAnswers}
