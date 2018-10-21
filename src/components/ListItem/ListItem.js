@@ -14,12 +14,6 @@ export default class ListItem extends Component {
     };
   }
 
-  componentDidMount() {
-    // console.log('ListItem', this.props);
-    // console.log('PROPS ANSWERS', this.props.list);
-    // console.log('STATE ANSWERS', this.state.answers);
-  }
-
   handleChange = (index) => (evt) => {
     const val = evt.target.value.toUpperCase();
     let value = '';
@@ -43,31 +37,6 @@ export default class ListItem extends Component {
 
     const answers = Object.assign({}, obj, { [index]: { value } });
 
-    // const a= Object.keys(obj).map((key) => {
-    //   const idx = parseInt(key);
-    //   console.log(idx);
-
-    //   if (index !== idx) {
-    //     console.log(obj[key].value);
-    //     return obj[key].value = ''
-    //   } else {
-    //     console.log(obj[key].value = value)
-    //     return obj[key].value = value;
-    //   }
-
-    //   // return obj
-    // });
-
-    // const newAnswers = _.map(this.state.answers, (item, i) => {
-    //   console.log('**', item, i)
-    //   const idx = parseInt(i);
-
-    //   if (index !== idx) return item;
-
-    //   return { ...item, value };
-    // });
-
-    // const a = _.assignIn({}, newAnswers);
     this.setState({ answers });
   };
 
@@ -113,10 +82,11 @@ export default class ListItem extends Component {
   };
 
   toNextScreen = () => {
-    const { nextStep, callback } = this.props;
+    const { nextStep, callback, getResults } = this.props;
     const { answers } = this.state;
 
     callback(answers);
+    getResults(answers);
     nextStep();
   };
 

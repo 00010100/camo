@@ -14,12 +14,8 @@ export default class ThirdScreen extends Component {
     return obj;
   };
 
-  componentDidMount() {
-    // console.log('THIS PROPS THIRD', this.props);
-  }
-
   render() {
-    const { questions, nextStep, getAnswers } = this.props;
+    const { questions, nextStep, getAnswers, getResults } = this.props;
 
     return (
       <div className="jumbotron">
@@ -28,6 +24,7 @@ export default class ThirdScreen extends Component {
           answers={this.createState(questions)}
           nextStep={nextStep}
           callback={getAnswers}
+          getResults={getResults}
         />
       </div>
     );
