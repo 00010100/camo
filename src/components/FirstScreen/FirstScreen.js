@@ -49,7 +49,9 @@ export default class FirstScreen extends Component {
 }
 
 FirstScreen.propTypes = {
-  // nextStep: PropTypes.func.isRequired,
+  nextStep: PropTypes.func.isRequired,
+  getIndexes: PropTypes.func.isRequired,
+  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.oneOf(PropTypes.arrayOf(), PropTypes.string))).isRequired,
   // titles: PropTypes.arrayOf(PropTypes.string).isRequired,
   // sections: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

@@ -1,32 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import ItemList from '../ListItem';
 import './ThirdScreen.css';
-import Helpers from '../../helpers';
 
-export default class ThirdScreen extends Component {
-  helpers = new Helpers();
-
-  createState = (obj) => {
+const ThirdScreen = ({ questions, nextStep, getAnswers, getResults }) => {
+  const createState = (obj) => {
     for (let i in obj) {
       obj[i] = { value: '' };
     }
     return obj;
   };
 
-  render() {
-    const { questions, nextStep, getAnswers, getResults } = this.props;
-
-    return (
-      <div className="jumbotron">
-        <h1 align="center">Enter your second pass answers here:</h1>
-        <ItemList
-          answers={this.createState(questions)}
-          nextStep={nextStep}
-          callback={getAnswers}
-          getResults={getResults}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="jumbotron">
+      <h1 align="center">Enter your second pass answers here:</h1>
+      <ItemList
+        answers={createState(questions)}
+        nextStep={nextStep}
+        callback={getAnswers}
+        getResults={getResults}
+      />
+    </div>
+  );
 }
+
+ThirdScreen.propTypes = {
+  questions: PropTypes.objectOf(PropTypes.string).isRequired,
+  nextStep: PropTypes.func.isRequired,
+  getAnswers: PropTypes.func.isRequired,
+  getResults: PropTypes.func.isRequired,
+};
+
+export default ThirdScreen;

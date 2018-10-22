@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 import './FourthScreen';
 
@@ -82,6 +83,10 @@ export class FourthScreen extends Component {
   };
 
   objToString = (obj) => {
+    if (_.isEmpty(obj)) {
+      return '0';
+    }
+    
     return Object.keys(obj)
       .map((el) => el !== undefined && parseInt(el) + 1)
       .join(', ');

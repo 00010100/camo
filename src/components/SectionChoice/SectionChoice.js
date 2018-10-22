@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import './SectionChoice.css';
 
 export default class SectionChoice extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeIndex: 0,
-    };
+  static propTypes = {
+    choiceSection: PropTypes.func.isRequired,
+    sections: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
+
+  state = {
+    activeIndex: 0,
+  };
 
   handleRadio = (event) => {
     this.setState({ activeIndex: event.target.value });
@@ -17,7 +20,9 @@ export default class SectionChoice extends Component {
   };
 
   renderSection() {
-    return this.props.sections.map((item, index) => {
+    const { sections } = this.props;
+
+    return _.map(sections, (item, index) => {
       const isCurrent = Number(this.state.activeIndex) === index;
       const selected = isCurrent ? 'active' : '';
 
@@ -28,7 +33,7 @@ export default class SectionChoice extends Component {
             name="options"
             onChange={this.handleRadio}
             value={index}
-          />{' '}
+          />
           {index + 1}
         </label>
       );

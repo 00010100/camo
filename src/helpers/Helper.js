@@ -201,6 +201,8 @@ export default class Helpers {
     const decoy = this._getDecoy(data, countWrongAnswers);
     const camouflageCount = _.sum([countWrongAnswers, decoy]);
 
+    console.log(rightAnswers)
+
     const sorted = _(stat)
       .map((el, index) => [index, el])
       .orderBy([(el) => el[1]], ['desc'])
