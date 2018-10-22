@@ -13,7 +13,7 @@ const SecondScreen = ({ questions, nextStep, getAnswers, getResults }) => {
   };
 
   return (
-    <div className="screen-wrap">
+    <div className="jumbotron">
       <ListItem
         answers={createState(questions)}
         nextStep={nextStep}

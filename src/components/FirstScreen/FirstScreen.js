@@ -35,7 +35,7 @@ export default class FirstScreen extends Component {
 
     return (
       <div className="jumbotron">
-        <h1 align="center">Welcome to Camouflage</h1>
+        <h1 align="center" className="title">Welcome to Camouflage</h1>
         <p className="lead" align="center">
           Which section would you like to review?
         </p>
@@ -51,7 +51,5 @@ export default class FirstScreen extends Component {
 FirstScreen.propTypes = {
   nextStep: PropTypes.func.isRequired,
   getIndexes: PropTypes.func.isRequired,
-  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.oneOf(PropTypes.arrayOf(), PropTypes.string))).isRequired,
-  // titles: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // sections: PropTypes.arrayOf(PropTypes.string).isRequired,
+  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired,
 };

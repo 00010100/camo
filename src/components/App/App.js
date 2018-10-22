@@ -46,7 +46,7 @@ export default class App extends Component {
     const listDecoys = getWillDecoy(mockData, indexes, answers);
 
     const res = _.cloneDeep(this.state.results);
-    const results = Object.assign({}, res, { [activeStep]: { missCount, listWrong, listMatch, listDecoys } });
+    const results = { ...res, [activeStep]: { missCount, listWrong, listMatch, listDecoys } };
 
     this.setState({ results });
   };
@@ -59,30 +59,32 @@ export default class App extends Component {
     const camoQuestions = algorithm(mockData, indexes, answers);
 
     switch (step) {
-      case 0:
-        return <FirstScreen data={mockData} nextStep={this.nextStep} getIndexes={this.getIndexes} />;
-      case 1:
-        return (
-          <SecondScreen
-            questions={questions}
-            nextStep={this.nextStep}
-            getAnswers={this.getAnswers}
-            getResults={this.getResults}
-          />
-        );
-      case 2:
-        return (
-          <ThirdScreen
-            questions={camoQuestions}
-            nextStep={this.nextStep}
-            getAnswers={this.getAnswers}
-            getResults={this.getResults}
-          />
-        );
-      case 3:
-        return <FourthScreen results={results} />;
-      default:
-        throw new Error('Unknown step');
+    case 0:
+      return (
+        <FirstScreen data={mockData} nextStep={this.nextStep} getIndexes={this.getIndexes} />
+      );
+    case 1:
+      return (
+        <SecondScreen
+          questions={questions}
+          nextStep={this.nextStep}
+          getAnswers={this.getAnswers}
+          getResults={this.getResults}
+        />
+      );
+    case 2:
+      return (
+        <ThirdScreen
+          questions={camoQuestions}
+          nextStep={this.nextStep}
+          getAnswers={this.getAnswers}
+          getResults={this.getResults}
+        />
+      );
+    case 3:
+      return <FourthScreen results={results} />;
+    default:
+      throw new Error('Unknown step');
     }
   };
 

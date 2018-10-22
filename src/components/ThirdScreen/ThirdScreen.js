@@ -14,7 +14,7 @@ const ThirdScreen = ({ questions, nextStep, getAnswers, getResults }) => {
 
   return (
     <div className="jumbotron">
-      <h1 align="center">Enter your second pass answers here:</h1>
+      <h2 align="center" className="subtitle" >Enter your second pass answers here:</h2>
       <ItemList
         answers={createState(questions)}
         nextStep={nextStep}
@@ -23,7 +23,7 @@ const ThirdScreen = ({ questions, nextStep, getAnswers, getResults }) => {
       />
     </div>
   );
-}
+};
 
 ThirdScreen.propTypes = {
   questions: PropTypes.objectOf(PropTypes.string).isRequired,

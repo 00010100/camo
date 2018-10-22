@@ -178,7 +178,7 @@ export default class Helpers {
 
     if (decoys !== '0') {
       const minMax = decoys.split('-');
-      return minMax[0];
+      return parseInt(minMax[0]);
     }
 
     return parseInt(decoys);
@@ -200,8 +200,6 @@ export default class Helpers {
     const stat = this._statisticAnswers(filteredAnswers);
     const decoy = this._getDecoy(data, countWrongAnswers);
     const camouflageCount = _.sum([countWrongAnswers, decoy]);
-
-    console.log(rightAnswers)
 
     const sorted = _(stat)
       .map((el, index) => [index, el])

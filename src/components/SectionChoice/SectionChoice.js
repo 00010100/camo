@@ -8,7 +8,7 @@ export default class SectionChoice extends Component {
   static propTypes = {
     choiceSection: PropTypes.func.isRequired,
     sections: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }
+  };
 
   state = {
     activeIndex: 0,
@@ -28,12 +28,7 @@ export default class SectionChoice extends Component {
 
       return (
         <label className={`btn btn-info ${selected}`} key={item}>
-          <input
-            type="radio"
-            name="options"
-            onChange={this.handleRadio}
-            value={index}
-          />
+          <input type="radio" name="options" onChange={this.handleRadio} value={index} />
           {index + 1}
         </label>
       );
@@ -44,10 +39,7 @@ export default class SectionChoice extends Component {
     return (
       <React.Fragment>
         <p align="center">Section: </p>
-        <div
-          className="btn-group btn-group-toggle button-container"
-          data-toggle="buttons"
-        >
+        <div className="btn-group btn-group-toggle button-container" data-toggle="buttons">
           {this.renderSection()}
         </div>
       </React.Fragment>
