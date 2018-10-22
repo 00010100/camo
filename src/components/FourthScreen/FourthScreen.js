@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import PieChart from 'react-chartjs/lib/pie';
 
-import './FourthScreen';
+import './FourthScreen.css';
 
 export class FourthScreen extends Component {
   state = {
@@ -86,7 +87,7 @@ export class FourthScreen extends Component {
     if (_.isEmpty(obj)) {
       return '0';
     }
-    
+
     return Object.keys(obj)
       .map((el) => el !== undefined && parseInt(el) + 1)
       .join(', ');
@@ -97,6 +98,46 @@ export class FourthScreen extends Component {
 
     const count = list.split(',').length;
     return Math.round((count / all) * 100);
+  };
+
+  renderFirstChart = () => {
+    const { not1but2, not1not2 } = this.state;
+    const { results } = this.props;
+
+    return [
+      {
+        value: this.getRatio(not1but2, results[2].missCount),
+        color: '#008080',
+        highlight: '#006666',
+        label: 'Misread',
+      },
+      {
+        value: this.getRatio(not1not2, results[2].missCount),
+        color: '#00b386',
+        highlight: '#009973',
+        label: 'Conceptual gap',
+      },
+    ];
+  };
+
+  renderSecondChart = () => {
+    const { and1and2, and1not2 } = this.state;
+    const { results } = this.props;
+
+    return [
+      {
+        value: this.getRatio(and1and2, results[2].missCount),
+        color: '#00b386',
+        highlight: '#009973',
+        label: 'Self-condence',
+      },
+      {
+        value: this.getRatio(and1not2, results[2].missCount),
+        color: '#008080',
+        highlight: '#006666',
+        label: 'Self-doubt',
+      },
+    ];
   };
 
   render() {
@@ -110,23 +151,36 @@ export class FourthScreen extends Component {
         <p className="lead">{`> [ ${this.renderWrongFirst()} ] were wrong.`}</p>
         <p className="lead">{`> [ ${this.objToString(results[1].listDecoys)} ] were decoys.`}</p>
         <hr className="my-4" />
-        <p className="lead">{`You missed ${results[2].missCount} questions on your camouflage review.`}</p>
+        <p className="lead">{`You missed ${
+          results[2].missCount
+        } questions on your camouflage review.`}</p>
         <p className="lead">{`1) You corrected [ ${this.objToString(not1but2)} ].`}</p>
         <small>This means you likely missed these questions due to misreads.</small>
         <p className="lead">{`2) You missed [ ${this.objToString(not1not2)} ] twice.`}</p>
         <small>
-          This means you likely don't understand the concepts these questions are testing. Review them closly.
+          This means you likely don't understand the concepts these questions are testing. Review
+          them closly.
         </small>
-        <p className="lead">{`3) You stuck with your correct answers to [ ${this.objToString(and1and2)} ]!`}</p>
-        <p className="lead">{`4) You switched away from your correct answers to [ ${this.objToString(and1not2)} ]!`}</p>
+        <p className="lead">{`3) You stuck with your correct answers to [ ${this.objToString(
+          and1and2,
+        )} ]!`}</p>
+        <p className="lead">{`4) You switched away from your correct answers to [ ${this.objToString(
+          and1not2,
+        )} ]!`}</p>
         <small>This means some of your wrong answers likely result from self-doubt.</small>
-
-        <div>
-          <p className="lead">Here's your overall wrong answers profile:</p>
-          <p className="lead">{`1) Misread: ${this.getRatio(not1but2, results[2].missCount)}%`}</p>
-          <p className="lead">{`2) Conceptual gap: ${this.getRatio(not1but2, results[2].missCount)}%`}</p>
-          <p className="lead">{`3) Self-condence: ${this.getRatio(and1and2, results[2].missCount)}%`}</p>
-          <p className="lead">{`4) Self-doubt: ${this.getRatio(and1not2, results[2].missCount)}%`}</p>
+        <div className="chart-container">
+          <PieChart
+            data={this.renderFirstChart()}
+            options={{ animationEasing: 'easeInOutCirc' }}
+            width="200"
+            height="200"
+          />
+          <PieChart
+            data={this.renderSecondChart()}
+            options={{ animationEasing: 'easeInOutCirc' }}
+            width="200"
+            height="200"
+          />
         </div>
       </div>
     );
