@@ -133,7 +133,9 @@ export default class Helpers {
             if (result[p] !== undefined) {
               if (index > 9 && index < Object.keys(result).length) {
                 result[p] += stats[i];
-                result[p] += 0.1;
+                if (p > 9) {
+                  result[p] += 0.1;
+                }
               } else {
                 result[p] += stats[i];
               }
