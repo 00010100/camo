@@ -116,7 +116,7 @@ export default class Helpers {
       3: 1,
       4: 0.5,
       5: 0.25,
-      6: 0.125,
+      6: 0.125
     };
 
     const length = Object.keys(answers).length;

@@ -16,15 +16,15 @@ export default class App extends Component {
     activeStep: 0,
     indexes: {
       titleIndex: 0,
-      sectionIndex: 0,
+      sectionIndex: 0
     },
     answers: {},
-    results: {},
+    results: {}
   };
 
   nextStep = () => {
     this.setState(({ activeStep }) => ({
-      activeStep: activeStep + 1,
+      activeStep: activeStep + 1
     }));
   };
 

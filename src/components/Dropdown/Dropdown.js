@@ -4,7 +4,7 @@ import './Dropdown.css';
 
 export default class Dropdown extends Component {
   state = {
-    titleIndex: 0,
+    titleIndex: 0
   };
 
   handleChange = (event) => {

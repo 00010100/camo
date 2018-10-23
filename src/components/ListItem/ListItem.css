@@ -1,0 +1,19 @@
+.item-list {
+  margin: 20px 0;
+}
+
+.item-list .list-group-item {
+  display: flex;
+  align-items: center;
+}
+
+.item-list .list-group-item input {
+  width: 40px;
+}
+
+.list-item-box {
+  display: flex;
+  width: 70px;
+  justify-content: space-between;
+  align-items: center;
+}

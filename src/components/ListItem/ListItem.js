@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 
 import Button from '../Button';
@@ -16,8 +16,8 @@ export default class ListItem extends Component {
 
   componentDidMount() {
     const refs = Object.keys(this.refs).map((k, i, arr) => arr[i]);
-    
-    this.refs[refs[0]].focus()
+
+    this.refs[refs[0]].focus();
   }
 
   handleFocus = (evt) => {
@@ -87,6 +87,12 @@ export default class ListItem extends Component {
     ) {
       evt.preventDefault();
     }
+
+    if (evt.key === 'Enter') {
+      const isDisabled = _.every(this.state.answers, ({ value }) => value !== '');
+
+      isDisabled && this.toNextScreen();
+    }
   };
 
   handlePaste = (evt) => {
@@ -108,12 +114,10 @@ export default class ListItem extends Component {
     const isDisabled = _.every(answers, ({ value }) => value !== '');
 
     return (
-      <React.Fragment>
-        <ul ref={(ul) => (this.ul = ul)} className="item-list list-group">
-          {this.renderQuestions()}
-        </ul>
+      <Fragment>
+        <ul className="item-list list-group">{this.renderQuestions()}</ul>
         <Button label="Submit" callback={this.toNextScreen} disabled={!isDisabled} />
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

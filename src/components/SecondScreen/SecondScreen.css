@@ -2,22 +2,14 @@
   padding: 20px 10px;
 }
 
-.item-list {
-  margin-bottom: 20px;
+.title-box {
+  text-align: center;
 }
 
-.item-list .list-group-item {
-  display: flex;
-  align-items: center;
+.title-box .subtitle {
+  margin-bottom: 0;
 }
 
-.item-list .list-group-item input {
-  width: 40px;
-}
-
-.list-item-box {
-  display: flex;
-  width: 70px;
-  justify-content: space-between;
-  align-items: center;
+.title-box small {
+  font-size: 14px;
 }

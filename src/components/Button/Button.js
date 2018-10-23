@@ -6,12 +6,7 @@ import './Button.css';
 const Button = ({ label, disabled = false, callback }) => {
   return (
     <div className="btn-container">
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={callback}
-        disabled={disabled}
-      >
+      <button className="btn btn-primary" onClick={callback} disabled={disabled}>
         {label}
       </button>
     </div>
@@ -21,7 +16,7 @@ const Button = ({ label, disabled = false, callback }) => {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  callback: PropTypes.func.isRequired,
-}
+  callback: PropTypes.func.isRequired
+};
 
 export default Button;

@@ -9,7 +9,7 @@ import './FirstScreen.css';
 export default class FirstScreen extends Component {
   state = {
     titleIndex: 0,
-    sectionIndex: 0,
+    sectionIndex: 0
   };
 
   toNextScreen = () => {
@@ -30,12 +30,14 @@ export default class FirstScreen extends Component {
 
   render() {
     const {
-      data: { titles, sections },
+      data: { titles, sections }
     } = this.props;
 
     return (
       <div className="jumbotron">
-        <h1 align="center" className="title">Welcome to Camouflage</h1>
+        <h1 align="center" className="title">
+          Welcome to Camouflage
+        </h1>
         <p className="lead" align="center">
           Which section would you like to review?
         </p>
@@ -51,5 +53,5 @@ export default class FirstScreen extends Component {
 FirstScreen.propTypes = {
   nextStep: PropTypes.func.isRequired,
   getIndexes: PropTypes.func.isRequired,
-  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired,
+  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired
 };

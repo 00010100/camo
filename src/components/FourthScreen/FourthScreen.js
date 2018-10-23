@@ -9,7 +9,7 @@ export class FourthScreen extends Component {
     not1but2: '',
     not1not2: '',
     and1and2: '',
-    and1not2: '',
+    and1not2: ''
   };
 
   componentDidMount() {
@@ -70,8 +70,8 @@ export class FourthScreen extends Component {
     const obj2 = results[2].listMatch;
     const not1but2 = {};
 
-    console.log(obj1)
-    console.log(obj2)
+    console.log(obj1);
+    console.log(obj2);
 
     for (let i in obj1) {
       if (obj1[i] !== undefined && obj2[i] !== undefined) {
@@ -90,7 +90,7 @@ export class FourthScreen extends Component {
     const obj1 = results[1].listWrong;
     const obj2 = results[2].listWrong;
     const not1not2 = {};
-    
+
     for (let i in obj1) {
       if (obj1[i] !== undefined && obj2[i] !== undefined) {
         if (obj1[i] === obj2[i]) {
@@ -128,14 +128,14 @@ export class FourthScreen extends Component {
         value: this.getRatio(not1but2, results[2].missCount),
         color: '#008080',
         highlight: '#006666',
-        label: 'Misread',
+        label: 'Misread'
       },
       {
         value: this.getRatio(not1not2, results[2].missCount),
         color: '#00b386',
         highlight: '#009973',
-        label: 'Conceptual gap',
-      },
+        label: 'Conceptual gap'
+      }
     ];
   };
 
@@ -148,14 +148,14 @@ export class FourthScreen extends Component {
         value: this.getRatio(and1and2, results[2].missCount),
         color: '#00b386',
         highlight: '#009973',
-        label: 'Self-condence',
+        label: 'Self-condence'
       },
       {
         value: this.getRatio(and1not2, results[2].missCount),
         color: '#008080',
         highlight: '#006666',
-        label: 'Self-doubt',
-      },
+        label: 'Self-doubt'
+      }
     ];
   };
 
@@ -166,27 +166,41 @@ export class FourthScreen extends Component {
     return (
       <div className="jumbotron">
         <h1 align="center">Results:</h1>
+
         <p className="lead">{`You missed ${results[1].missCount} questions on your first pass.`}</p>
         <p className="lead">{`> [ ${this.renderWrongFirst()} ] were wrong.`}</p>
         <p className="lead">{`> [ ${this.objToString(results[1].listDecoys)} ] were decoys.`}</p>
+
         <hr className="my-4" />
+
         <p className="lead">{`You missed ${
           results[2].missCount
         } questions on your camouflage review.`}</p>
-        <p className="lead">{`1) You corrected [ ${this.objToString(not1but2)} ].`}</p>
-        <small>This means you likely missed these questions due to misreads.</small>
-        <p className="lead">{`2) You missed [ ${this.objToString(not1not2)} ] twice.`}</p>
-        <small>
-          This means you likely don't understand the concepts these questions are testing. Review
-          them closly.
-        </small>
+
+        <div className="statistic">
+          <p className="lead">{`1) You corrected [ ${this.objToString(not1but2)} ].`}</p>
+          <small>This means you likely missed these questions due to misreads.</small>
+        </div>
+
+        <div className="statistic">
+          <p className="lead">{`2) You missed [ ${this.objToString(not1not2)} ] twice.`}</p>
+          <small>
+            This means you likely don't understand the concepts these questions are testing. Review
+            them closly.
+          </small>
+        </div>
+
         <p className="lead">{`3) You stuck with your correct answers to [ ${this.objToString(
-          and1and2,
+          and1and2
         )} ]!`}</p>
-        <p className="lead">{`4) You switched away from your correct answers to [ ${this.objToString(
-          and1not2,
-        )} ]!`}</p>
-        <small>This means some of your wrong answers likely result from self-doubt.</small>
+
+        <div className="statistic">
+          <p className="lead">{`4) You switched away from your correct answers to [ ${this.objToString(
+            and1not2
+          )} ]!`}</p>
+          <small>This means some of your wrong answers likely result from self-doubt.</small>
+        </div>
+
         <div className="chart-container">
           <PieChart
             data={this.renderFirstChart()}

@@ -89,7 +89,7 @@ export const titles = [
   'PT 82 September 2017',
   'PT 83 December 2017',
   'PT 84 June 2018',
-  'PT 85 September 2018',
+  'PT 85 September 2018'
 ];
 
 export const sections = ['SECTION I', 'SECTION II', 'SECTION III', 'SECTION IV'];
@@ -121,7 +121,7 @@ export const questions = [
       '22. A',
       '23. A',
       '24. A',
-      '25. A',
+      '25. A'
     ],
     [
       '1. B',
@@ -150,14 +150,14 @@ export const questions = [
       '24. D',
       '25. C',
       '26. C',
-      '27. D',
+      '27. D'
     ],
     [],
-    [],
+    []
   ],
   [[], [], [], [], []],
   [[], [], [], []],
-  [[], [], [], []],
+  [[], [], [], []]
 ];
 
 export const decoy = [
@@ -187,12 +187,12 @@ export const decoy = [
   '0',
   '0',
   '0',
-  '0',
+  '0'
 ];
 
 export default {
   titles,
   sections,
   questions,
-  decoy,
+  decoy
 };
