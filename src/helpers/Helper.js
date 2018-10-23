@@ -5,6 +5,7 @@ export default class Helpers {
 
   _renderRightAnswers = (data, indexes) => {
     const q = data.questions[indexes.titleIndex][indexes.sectionIndex];
+
     const filtered = _.map(q, (item, index) => ([index] = item.substring(item.length - 1)));
 
     return this._toObj(filtered);

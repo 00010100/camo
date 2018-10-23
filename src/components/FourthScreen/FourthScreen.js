@@ -15,6 +15,7 @@ export class FourthScreen extends Component {
   componentDidMount() {
     this.match();
     this.matchWithWrong();
+    this.wrongWithMatch();
     this.wrong();
   }
 
@@ -62,25 +63,43 @@ export class FourthScreen extends Component {
     this.setState({ and1not2 });
   };
 
+  wrongWithMatch = () => {
+    const { results } = this.props;
+
+    const obj1 = results[1].listWrong;
+    const obj2 = results[2].listMatch;
+    const not1but2 = {};
+
+    console.log(obj1)
+    console.log(obj2)
+
+    for (let i in obj1) {
+      if (obj1[i] !== undefined && obj2[i] !== undefined) {
+        if (obj1[i] !== obj2[i]) {
+          not1but2[i] = obj2[i];
+        }
+      }
+    }
+
+    this.setState({ not1but2 });
+  };
+
   wrong = () => {
     const { results } = this.props;
 
     const obj1 = results[1].listWrong;
     const obj2 = results[2].listWrong;
     const not1not2 = {};
-    const not1but2 = {};
-
+    
     for (let i in obj1) {
       if (obj1[i] !== undefined && obj2[i] !== undefined) {
-        if (obj1[i] !== obj2[i]) {
+        if (obj1[i] === obj2[i]) {
           not1not2[i] = obj2[i];
-        } else {
-          not1but2[i] = obj2[i];
         }
       }
     }
 
-    this.setState({ not1but2, not1not2 });
+    this.setState({ not1not2 });
   };
 
   objToString = (obj) => {

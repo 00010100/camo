@@ -10,12 +10,23 @@ export default class ListItem extends Component {
 
     this.state = {
       value: '',
-      answers: props.answers,
+      answers: props.answers
     };
   }
 
+  componentDidMount() {
+    const refs = Object.keys(this.refs).map((k, i, arr) => arr[i]);
+    
+    this.refs[refs[0]].focus()
+  }
+
+  handleFocus = (evt) => {
+    evt.target.select();
+  };
+
   handleChange = (index) => (evt) => {
     const val = evt.target.value.toUpperCase();
+
     let value = '';
 
     if (val !== '') {
@@ -54,6 +65,7 @@ export default class ListItem extends Component {
               ref={idx}
               onKeyPress={this.handleKeyPress}
               onPaste={this.handlePaste}
+              onFocus={this.handleFocus}
               className="form-control"
               type="text"
               value={answers[idx].value}
@@ -97,7 +109,9 @@ export default class ListItem extends Component {
 
     return (
       <React.Fragment>
-        <ul className="item-list list-group">{this.renderQuestions()}</ul>
+        <ul ref={(ul) => (this.ul = ul)} className="item-list list-group">
+          {this.renderQuestions()}
+        </ul>
         <Button label="Submit" callback={this.toNextScreen} disabled={!isDisabled} />
       </React.Fragment>
     );
