@@ -16,7 +16,7 @@ const ThirdScreen = ({ questions, nextStep, getAnswers, getResults }) => {
     <div className="jumbotron">
       <div className="title-box">
         <h2 align="center" className="subtitle">
-          Enter your first pass answers here:
+          Enter your second pass answers here:
         </h2>
         <small align="center">You can enter only: A, B, C, D, E</small>
       </div>
