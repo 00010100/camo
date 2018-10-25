@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import PieChart from 'react-chartjs/lib/pie';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import './FourthScreen.css';
 
-export class FourthScreen extends Component {
+export default class FourthScreen extends Component {
+  static propTypes = {
+    results: PropTypes.objectOf(PropTypes.objectOf(PropTypes.any))
+  };
+
   state = {
     not1but2: '',
     not1not2: '',
@@ -21,6 +26,10 @@ export class FourthScreen extends Component {
 
   renderWrongFirst = () => {
     const listWrong = this.props.results[1].listWrong;
+
+    if (_.isEmpty(listWrong)) {
+      return 0;
+    }
 
     return Object.keys(listWrong)
       .map((el) => el !== undefined && parseInt(el) + 1)
@@ -219,5 +228,3 @@ export class FourthScreen extends Component {
     );
   }
 }
-
-export default FourthScreen;

@@ -1,23 +1,50 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import './ListItem.css';
+import Helpers from '../../helpers';
 
 export default class ListItem extends Component {
+  helpers = new Helpers();
+  
+  static propTypes = {
+    list: PropTypes.objectOf(PropTypes.string).isRequired,
+    nextStep: PropTypes.func.isRequired,
+    getAnswers: PropTypes.func.isRequired,
+    getResults: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       value: '',
-      answers: props.answers
+      answers: this.createState(props.list)
     };
   }
 
-  componentDidMount() {
-    const refs = Object.keys(this.refs).map((k, i, arr) => arr[i]);
+  createState = (obj) => {
+    for (let i in obj) {
+      obj[i] = { value: '' };
+    }
 
-    this.refs[refs[0]].focus();
+    return obj;
+  };
+
+  componentDidMount() {
+    const refIndex = Object.keys(this.refs).map((k, i, arr) => arr[i])[0];
+
+    this.refs[refIndex].focus();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (_.isEqual(nextState.answers, this.state.answers)) {
+      return false;
+    }
+
+    return true;
   }
 
   handleFocus = (evt) => {
@@ -44,9 +71,7 @@ export default class ListItem extends Component {
       });
     }
 
-    const obj = _.cloneDeep(this.state.answers);
-
-    const answers = Object.assign({}, obj, { [index]: { value } });
+    const answers = { ...this.state.answers, [index]: { value } };
 
     this.setState({ answers });
   };
@@ -100,24 +125,31 @@ export default class ListItem extends Component {
   };
 
   toNextScreen = () => {
-    const { nextStep, callback, getResults } = this.props;
+    const { nextStep, getAnswers, getResults } = this.props;
     const { answers } = this.state;
 
-    callback(answers);
-    getResults(answers);
+    const filterAnswers = this.helpers.filterAnswers(answers);
+
+    getAnswers(filterAnswers);
+    getResults(filterAnswers);
     nextStep();
   };
 
   render() {
     const { answers } = this.state;
-
     const isDisabled = _.every(answers, ({ value }) => value !== '');
 
     return (
-      <Fragment>
+      <div className="jumbotron">
+        <div className="title-box">
+          <h2 align="center" className="subtitle">
+            {`Enter your ${'num'} pass answers here:`}
+          </h2>
+          <small align="center">You can enter only: A, B, C, D, E</small>
+        </div>
         <ul className="item-list list-group">{this.renderQuestions()}</ul>
         <Button label="Submit" callback={this.toNextScreen} disabled={!isDisabled} />
-      </Fragment>
+      </div>
     );
   }
 }

@@ -7,6 +7,13 @@ import Button from '../Button';
 import './FirstScreen.css';
 
 export default class FirstScreen extends Component {
+  static propTypes = {
+    nextStep: PropTypes.func.isRequired,
+    getIndexes: PropTypes.func.isRequired,
+    titles: PropTypes.objectOf(PropTypes.string).isRequired,
+    sections: PropTypes.objectOf(PropTypes.string).isRequired
+  };
+
   state = {
     titleIndex: 0,
     sectionIndex: 0
@@ -29,9 +36,7 @@ export default class FirstScreen extends Component {
   };
 
   render() {
-    const {
-      data: { titles, sections }
-    } = this.props;
+    const { titles, sections } = this.props;
 
     return (
       <div className="jumbotron">
@@ -49,9 +54,3 @@ export default class FirstScreen extends Component {
     );
   }
 }
-
-FirstScreen.propTypes = {
-  nextStep: PropTypes.func.isRequired,
-  getIndexes: PropTypes.func.isRequired,
-  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired
-};

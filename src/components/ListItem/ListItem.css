@@ -17,3 +17,21 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.title-box {
+  text-align: center;
+}
+
+.title-box .subtitle {
+  margin-bottom: 0;
+}
+
+.title-box small {
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 768px) {
+  .subtitle {
+    font-size: 28px;
+  }
+}

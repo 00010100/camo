@@ -3,24 +3,38 @@ import _ from 'lodash';
 export default class Helpers {
   _toObj = (arr) => _.assignIn({}, arr);
 
-  _renderRightAnswers = (data, indexes) => {
-    const q = data.questions[indexes.titleIndex][indexes.sectionIndex];
+  _takeObj = (rawData, indexes) => {
+    const questions = rawData.questions[indexes.sectionIndex][indexes.titleIndex];
 
-    const filtered = _.map(q, (item, index) => ([index] = item.substring(item.length - 1)));
-
-    return this._toObj(filtered);
+    return _.toPlainObject(questions.split(/\s+(?=\d)/));
   };
 
-  renderQuestions = (data, indexes) => {
-    const q = data.questions[indexes.titleIndex][indexes.sectionIndex];
+  _renderRightAnswers = (rawData, indexes) => {
+    const obj = this._takeObj(rawData, indexes);
 
-    return Object.keys(q).reduce((object, key) => {
-      object[key] = '';
-      return object;
-    }, {});
+    let result = {};
+
+    for (let key in obj) {
+      const el = obj[key];
+      result[key] = el.substring(el.length - 1);
+    }
+
+    return result;
   };
 
-  _filterAnswers = (obj) => {
+  renderQuestions = (rawData, indexes) => {
+    const obj = this._takeObj(rawData, indexes);
+
+    const result = {};
+
+    for (let key in obj) {
+      result[key] = '';
+    }
+
+    return result;
+  };
+
+  filterAnswers = (obj) => {
     const newObj = _.cloneDeep(obj);
 
     for (let i in newObj) {
@@ -44,28 +58,38 @@ export default class Helpers {
     return sum;
   };
 
-  missed = (data, indexes, userAnswers) => {
+  getResults = (data, indexes, answers) => {
     const rightAnswers = this._renderRightAnswers(data, indexes);
-    const answers = this._filterAnswers(userAnswers);
+
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
+    const listWrong = this._getWrongAnswers(rightAnswers, answers);
+    const listMatch = this._getMatchAnswers(rightAnswers, answers);
 
-    return this._sumObjValues(filteredAnswers);
-  };
+    const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
+    const stat = this._statisticAnswers(filteredAnswers);
+    const decoy = this._getDecoy(data, countWrongAnswers);
+    const camouflageCount = _.sum([countWrongAnswers, decoy]);
 
-  getListWrong = (data, indexes, userAnswers) => {
-    const rightAnswers = this._renderRightAnswers(data, indexes);
-    const answers = this._filterAnswers(userAnswers);
-    const wrongAnswers = this._getWrongAnswers(rightAnswers, answers);
+    const sorted = _(stat)
+      .map((el, index) => [index, el])
+      .orderBy([(el) => el[1]], ['desc'])
+      .slice([0], [camouflageCount])
+      .fromPairs()
+      .value();
 
-    return wrongAnswers;
-  };
+    const listDecoys = _(sorted)
+      .map((el, index) => [index, el])
+      .orderBy([(el) => el[1]], ['asc'])
+      .slice([0], [decoy])
+      .fromPairs()
+      .value();
 
-  getListMatch = (data, indexes, userAnswers) => {
-    const rightAnswers = this._renderRightAnswers(data, indexes);
-    const answers = this._filterAnswers(userAnswers);
-    const matchAnswers = this._getMatchAnswers(rightAnswers, answers);
-
-    return matchAnswers;
+    return {
+      missCount: this._sumObjValues(filteredAnswers),
+      listWrong,
+      listMatch,
+      listDecoys
+    };
   };
 
   _getWrongAnswers = (obj1, obj2) => {
@@ -150,41 +174,15 @@ export default class Helpers {
     return result;
   };
 
-  getWillDecoy = (data, indexes, userAnswers) => {
-    const rightAnswers = this._renderRightAnswers(data, indexes);
-    const answers = this._filterAnswers(userAnswers);
-    const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
-    const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
-    const stat = this._statisticAnswers(filteredAnswers);
-    const decoy = this._getDecoy(data, countWrongAnswers);
-    const camouflageCount = _.sum([countWrongAnswers, decoy]);
-
-    const sorted = _(stat)
-      .map((el, index) => [index, el])
-      .orderBy([(el) => el[1]], ['desc'])
-      .slice([0], [camouflageCount])
-      .fromPairs()
-      .value();
-
-    return _(sorted)
-      .map((el, index) => [index, el])
-      .orderBy([(el) => el[1]], ['asc'])
-      .slice([0], [decoy])
-      .fromPairs()
-      .value();
-  };
-
   _getDecoy = (data, count) => {
-    count = count >= data.decoy.length ? (count = data.decoy.length - 1) : count;
+    const decoy = data.decoys[count];
 
-    const decoys = _.filter(data.decoy, (el, index) => index === count)[0];
-
-    if (decoys !== '0') {
-      const minMax = decoys.split('-');
+    if (decoy !== '0') {
+      const minMax = decoy.split('-');
       return parseInt(minMax[0]);
     }
 
-    return parseInt(decoys);
+    return parseInt(decoy);
   };
 
   clearObj = (obj) => {
@@ -195,9 +193,8 @@ export default class Helpers {
     return obj;
   };
 
-  algorithm = (data, indexes, userAnswers) => {
+  algorithm = (data, indexes, answers) => {
     const rightAnswers = this._renderRightAnswers(data, indexes);
-    const answers = this._filterAnswers(userAnswers);
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
     const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
     const stat = this._statisticAnswers(filteredAnswers);
