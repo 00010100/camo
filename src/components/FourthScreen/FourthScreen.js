@@ -79,9 +79,6 @@ export default class FourthScreen extends Component {
     const obj2 = results[2].listMatch;
     const not1but2 = {};
 
-    console.log(obj1);
-    console.log(obj2);
-
     for (let i in obj1) {
       if (obj1[i] !== undefined && obj2[i] !== undefined) {
         if (obj1[i] !== obj2[i]) {
