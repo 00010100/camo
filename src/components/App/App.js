@@ -14,7 +14,8 @@ class App extends Component {
     activeStep: 0,
     indexes: null,
     answers: {},
-    results: {}
+    results: {},
+    decoy: 0
   };
 
   nextStep = () => {
@@ -34,16 +35,18 @@ class App extends Component {
   getResults = (answers) => {
     const { data } = this.props;
     const { indexes, activeStep } = this.state;
+    const { getDecoy, getResults } = this.helpers;
 
-    const res = this.helpers.getResults(data, indexes, answers);
+    const decoy = getDecoy(data, indexes, answers);
+    const res = getResults(data, indexes, answers, decoy);
 
     const results = { ...this.state.results, [activeStep]: { ...res } };
-    this.setState({ results });
+    this.setState({ results, decoy });
   };
 
   getStepContent = (step) => {
     const { algorithm, renderQuestions } = this.helpers;
-    const { indexes, results, answers } = this.state;
+    const { indexes, results, answers, decoy } = this.state;
     const { data } = this.props;
 
     switch (step) {
@@ -71,7 +74,7 @@ class App extends Component {
       );
     }
     case 2: {
-      const camoQuestions = algorithm(data, indexes, answers);
+      const camoQuestions = algorithm(data, indexes, answers, decoy);
 
       return (
         <ListItem 

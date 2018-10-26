@@ -58,7 +58,7 @@ export default class Helpers {
     return sum;
   };
 
-  getResults = (data, indexes, answers) => {
+  getResults = (data, indexes, answers, decoy) => {
     const rightAnswers = this._renderRightAnswers(data, indexes);
 
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
@@ -67,7 +67,6 @@ export default class Helpers {
 
     const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
     const stat = this._statisticAnswers(filteredAnswers);
-    const decoy = this._getDecoy(data, countWrongAnswers);
     const camouflageCount = _.sum([countWrongAnswers, decoy]);
 
     const sorted = _(stat)
@@ -179,7 +178,7 @@ export default class Helpers {
 
     if (decoy !== '0') {
       const minMax = decoy.split('-');
-      return parseInt(minMax[0]);
+      return _.random(minMax[0], minMax[1]);
     }
 
     return parseInt(decoy);
@@ -193,12 +192,19 @@ export default class Helpers {
     return obj;
   };
 
-  algorithm = (data, indexes, answers) => {
+  getDecoy = (data, indexes, answers) => {
+    const rightAnswers = this._renderRightAnswers(data, indexes);
+    const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
+    const decoy = this._getDecoy(data, countWrongAnswers);
+
+    return decoy;
+  }
+
+  algorithm = (data, indexes, answers, decoy) => {
     const rightAnswers = this._renderRightAnswers(data, indexes);
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
     const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
     const stat = this._statisticAnswers(filteredAnswers);
-    const decoy = this._getDecoy(data, countWrongAnswers);
     const camouflageCount = _.sum([countWrongAnswers, decoy]);
 
     const sorted = _(stat)
