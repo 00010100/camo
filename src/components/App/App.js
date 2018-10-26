@@ -62,6 +62,7 @@ class App extends Component {
       return (
         <ListItem 
           key="questions"
+          num="first"
           list={questions}
           nextStep={this.nextStep}
           getAnswers={this.getAnswers}
@@ -75,6 +76,7 @@ class App extends Component {
       return (
         <ListItem 
           key="camoQuestions"
+          num="second"
           list={camoQuestions}
           nextStep={this.nextStep}
           getAnswers={this.getAnswers}

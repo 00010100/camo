@@ -143,7 +143,7 @@ export default class ListItem extends Component {
       <div className="jumbotron">
         <div className="title-box">
           <h2 align="center" className="subtitle">
-            {`Enter your ${'num'} pass answers here:`}
+            {`Enter your ${this.props.num} pass answers here:`}
           </h2>
           <small align="center">You can enter only: A, B, C, D, E</small>
         </div>
