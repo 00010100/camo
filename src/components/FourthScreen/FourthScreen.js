@@ -135,46 +135,64 @@ export default class FourthScreen extends Component {
       .join(', ');
   };
 
-  getRatio = (obj, all) => {
-    const list = this.objToString(obj);
+  getRatio = (firstObj, secondObj) => {
+    const firstCount = Object.keys(firstObj).length;
+    const secondCount = Object.keys(secondObj).length;
+    const total = firstCount + secondCount;
 
-    const count = list.split(',').length;
-    return Math.round((count / all) * 100);
+    console.log('fist', Math.round((firstCount / total) * 100));
+    console.log('second', Math.round((secondCount / total) * 100));
+
+    return [Math.round((firstCount / total) * 100), Math.round((secondCount / total) * 100)];
   };
 
-  renderFirstChart = () => {
-    const { not1but2, not1not2 } = this.state;
-    const { results } = this.props;
+  // renderFirstChart = () => {
+  //   const { not1but2, not1not2 } = this.state;
+
+  //   const firstVal = this.getRatio(not1but2, not1not2)[0];
+  //   const secondVal = this.getRatio(not1but2, not1not2)[1];
+
+  //   return {
+  //     labels: ['Misread', 'Conceptual gap'],
+  //     datasets: [
+  //       {
+  //         data: [firstVal, secondVal],
+  //         backgroundColor: ['#008080', '#00b386'],
+  //         hoverBackgroundColor: ['#006666', '#009973'],
+  //       },
+  //     ],
+  //   };
+  // };
+
+  // renderSecondChart = () => {
+  //   const { and1and2, and1not2 } = this.state;
+
+  //   const firstVal = this.getRatio(and1not2, and1and2)[0];
+  //   const secondVal = this.getRatio(and1not2, and1and2)[1];
+
+  //   return {
+  //     labels: ['Self-confidence', 'Self-doubt'],
+  //     datasets: [
+  //       {
+  //         data: [firstVal, secondVal],
+  //         backgroundColor: ['#00b386', '#008080'],
+  //         hoverBackgroundColor: ['#009973', '#006666'],
+  //       },
+  //     ],
+  //   };
+  // };
+
+  renderChart = (firstObj, secondObj, labels, bgColor, hoverBgColor) => {
+    const firstVal = this.getRatio(firstObj, secondObj)[0];
+    const secondVal = this.getRatio(firstObj, secondObj)[1];
 
     return {
-      labels: ['Misread', 'Conceptual gap'],
+      labels,
       datasets: [
         {
-          data: [
-            this.getRatio(not1but2, results[2].missCount),
-            this.getRatio(not1not2, results[2].missCount),
-          ],
-          backgroundColor: ['#008080', '#00b386'],
-          hoverBackgroundColor: ['#006666', '#009973'],
-        },
-      ],
-    };
-  };
-
-  renderSecondChart = () => {
-    const { and1and2, and1not2 } = this.state;
-    const { results } = this.props;
-
-    return {
-      labels: ['Self-confidence', 'Self-doubt'],
-      datasets: [
-        {
-          data: [
-            this.getRatio(and1and2, results[2].missCount),
-            this.getRatio(and1not2, results[2].missCount),
-          ],
-          backgroundColor: ['#00b386', '#008080'],
-          hoverBackgroundColor: ['#009973', '#006666'],
+          data: [firstVal, secondVal],
+          backgroundColor: bgColor,
+          hoverBackgroundColor: hoverBgColor,
         },
       ],
     };
@@ -238,12 +256,34 @@ export default class FourthScreen extends Component {
         <div className="chart-container">
           <div className="chart-section">
             <p>WRONG ANSWER PROFILE</p>
-            <Pie data={this.renderFirstChart()} width={200} height={200} options={options} />
+            <Pie
+              data={this.renderChart(
+                not1but2,
+                not1not2,
+                ['Misread', 'Conceptual gap'],
+                ['#00b386', '#008080'],
+                ['#006666', '#009973']
+              )}
+              width={200}
+              height={200}
+              options={options}
+            />
           </div>
 
           <div className="chart-section">
             <p>CORRECT ANSWER PROFILE</p>
-            <Pie data={this.renderSecondChart()} width={200} height={200} options={options} />
+            <Pie
+              data={this.renderChart(
+                and1and2,
+                and1not2,
+                ['Self-confidence', 'Self-doubt'],
+                ['#008080', '#00b386'],
+                ['#009973', '#006666']
+              )}
+              width={200}
+              height={200}
+              options={options}
+            />
           </div>
         </div>
       </div>
