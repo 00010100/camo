@@ -6,7 +6,6 @@ import _ from 'lodash';
 import './FourthScreen.css';
 
 const options = {
-  maintainAspectRatio: false,
   tooltips: {
     callbacks: {
       label: (tooltipItem, data) => {
@@ -180,7 +179,7 @@ export default class FourthScreen extends Component {
         } questions on your camouflage review.`}</p>
 
         <div className="statistic">
-          <p className="lead">{`CONCEPTUAL GAPS: ${this.objToString(not1but2)}`}</p>
+          <p className="lead">{`CONCEPTUAL GAPS: ${this.objToString(not1not2)}`}</p>
           <small>
             Review these questions closely! Since you missed them twice, there are likely conceptual
             gaps in your process that need to be remedied for a higher score next time.
@@ -188,7 +187,7 @@ export default class FourthScreen extends Component {
         </div>
 
         <div className="statistic">
-          <p className="lead">{`MISREADS: ${this.objToString(not1not2)}`}</p>
+          <p className="lead">{`MISREADS: ${this.objToString(not1but2)}`}</p>
           <small>
             These questions were corrected on your second pass, meaning these wrong answers are
             likely due to rushing, anxiety, and misreads. Improve your focus and translation skills,
@@ -197,7 +196,7 @@ export default class FourthScreen extends Component {
         </div>
 
         <div className="statistic">
-          <p className="lead">{`SELF-DOUBT: ${this.objToString(and1and2)}`}</p>
+          <p className="lead">{`SELF-DOUBT: ${this.objToString(and1not2)}`}</p>
           <small>
             These questions were correct on your first pass through the section, but you changed
             them to an incorrect answer in Camouflage Review. This means a lack of confidence may be
@@ -207,13 +206,12 @@ export default class FourthScreen extends Component {
         </div>
 
         <div className="statistic">
-          <p className="lead">{`SELF-CONFIDENCE: ${this.objToString(and1not2)}`}</p>
+          <p className="lead">{`SELF-CONFIDENCE: ${this.objToString(and1and2)}`}</p>
           <small>
             You correctly stayed on these decoys. This means you have confidence in your choices and
             are more likely to remain consistent in your scores.
           </small>
         </div>
-
         <div className="chart-container">
           <div className="chart-section">
             <p>WRONG ANSWER PROFILE</p>
@@ -221,7 +219,7 @@ export default class FourthScreen extends Component {
               data={this.renderChart(
                 not1but2,
                 not1not2,
-                ['Misread', 'Conceptual gap'],
+                ['Misread', 'Conceptual gaps'],
                 ['#00b386', '#008080'],
                 ['#006666', '#009973']
               )}
@@ -230,7 +228,6 @@ export default class FourthScreen extends Component {
               options={options}
             />
           </div>
-
           <div className="chart-section">
             <p>CORRECT ANSWER PROFILE</p>
             <Pie
