@@ -8,12 +8,12 @@ import Helpers from '../../helpers';
 
 export default class ListItem extends Component {
   helpers = new Helpers();
-  
+
   static propTypes = {
     list: PropTypes.objectOf(PropTypes.string).isRequired,
     nextStep: PropTypes.func.isRequired,
     getAnswers: PropTypes.func.isRequired,
-    getResults: PropTypes.func.isRequired
+    getResults: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -21,7 +21,7 @@ export default class ListItem extends Component {
 
     this.state = {
       value: '',
-      answers: this.createState(props.list)
+      answers: this.createState(props.list),
     };
   }
 
@@ -103,13 +103,7 @@ export default class ListItem extends Component {
   };
 
   handleKeyPress = (evt) => {
-    if (
-      evt.key !== 'a' &&
-      evt.key !== 'b' &&
-      evt.key !== 'c' &&
-      evt.key !== 'd' &&
-      evt.key !== 'e'
-    ) {
+    if (!evt.key.match(/[abcde]/gi)) {
       evt.preventDefault();
     }
 
