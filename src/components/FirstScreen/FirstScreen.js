@@ -61,9 +61,13 @@ export default class FirstScreen extends Component {
           you analyze what’s causing your wrong answers:
         </p>
 
-        <p className="lead">Wrong answers you miss again in Camouflage Review indicate conceptual gaps.</p>
+        <p className="lead">
+          Wrong answers you miss again in Camouflage Review indicate conceptual gaps.
+        </p>
         <p className="lead">Wrong answers you correct in Camouflage Review indicate a misread.</p>
-        <p className="lead">Correct answers that you switch away from in Camouflage Review indicate self-doubt.</p>
+        <p className="lead">
+          Correct answers that you switch away from in Camouflage Review indicate self-doubt.
+        </p>
 
         <p className="lead">
           Seeing these differences between your wrong answers is crucial to improving as much as

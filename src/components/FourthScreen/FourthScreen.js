@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
-import PieChart from 'react-chartjs/lib/pie';
+import { Pie } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import './FourthScreen.css';
+
+const options = {
+  maintainAspectRatio: false,
+  tooltips: {
+    callbacks: {
+      label: (tooltipItem, data) => {
+        const dataset = data.datasets[tooltipItem.datasetIndex];
+        const total = dataset.data.reduce(
+          (previousValue, currentValue) => previousValue + currentValue
+        );
+        const currentValue = dataset.data[tooltipItem.index];
+        const percentage = Math.floor((currentValue / total) * 100 + 0.5);
+        return percentage + '%';
+      },
+    },
+  },
+};
 
 export default class FourthScreen extends Component {
   static propTypes = {
@@ -129,40 +146,38 @@ export default class FourthScreen extends Component {
     const { not1but2, not1not2 } = this.state;
     const { results } = this.props;
 
-    return [
-      {
-        value: this.getRatio(not1but2, results[2].missCount),
-        color: '#008080',
-        highlight: '#006666',
-        label: 'Misread',
-      },
-      {
-        value: this.getRatio(not1not2, results[2].missCount),
-        color: '#00b386',
-        highlight: '#009973',
-        label: 'Conceptual gap',
-      },
-    ];
+    return {
+      labels: ['Misread', 'Conceptual gap'],
+      datasets: [
+        {
+          data: [
+            this.getRatio(not1but2, results[2].missCount),
+            this.getRatio(not1not2, results[2].missCount),
+          ],
+          backgroundColor: ['#008080', '#00b386'],
+          hoverBackgroundColor: ['#006666', '#009973'],
+        },
+      ],
+    };
   };
 
   renderSecondChart = () => {
     const { and1and2, and1not2 } = this.state;
     const { results } = this.props;
 
-    return [
-      {
-        value: this.getRatio(and1and2, results[2].missCount),
-        color: '#00b386',
-        highlight: '#009973',
-        label: 'Self-condence',
-      },
-      {
-        value: this.getRatio(and1not2, results[2].missCount),
-        color: '#008080',
-        highlight: '#006666',
-        label: 'Self-doubt',
-      },
-    ];
+    return {
+      labels: ['Self-confidence', 'Self-doubt'],
+      datasets: [
+        {
+          data: [
+            this.getRatio(and1and2, results[2].missCount),
+            this.getRatio(and1not2, results[2].missCount),
+          ],
+          backgroundColor: ['#00b386', '#008080'],
+          hoverBackgroundColor: ['#009973', '#006666'],
+        },
+      ],
+    };
   };
 
   render() {
@@ -223,22 +238,12 @@ export default class FourthScreen extends Component {
         <div className="chart-container">
           <div className="chart-section">
             <p>WRONG ANSWER PROFILE</p>
-            <PieChart
-              data={this.renderFirstChart()}
-              options={{ animationEasing: 'easeInOutCirc' }}
-              width="200"
-              height="200"
-            />
+            <Pie data={this.renderFirstChart()} width={200} height={200} options={options} />
           </div>
 
           <div className="chart-section">
             <p>CORRECT ANSWER PROFILE</p>
-            <PieChart
-              data={this.renderSecondChart()}
-              options={{ animationEasing: 'easeInOutCirc' }}
-              width="200"
-              height="200"
-            />
+            <Pie data={this.renderSecondChart()} width={200} height={200} options={options} />
           </div>
         </div>
       </div>
