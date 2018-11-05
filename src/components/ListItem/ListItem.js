@@ -26,6 +26,20 @@ export default class ListItem extends Component {
     };
   }
 
+  componentDidMount() {
+    const refIndex = Object.keys(this.refs).map((k, i, arr) => arr[i])[0];
+
+    this.refs[refIndex].focus();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (_.isEqual(nextState.answers, this.state.answers)) {
+      return false;
+    }
+
+    return true;
+  }
+
   createState = (obj) => {
     for (let i in obj) {
       obj[i] = { value: '' };
@@ -41,42 +55,39 @@ export default class ListItem extends Component {
       })
       .join(', ');
 
-  componentDidMount() {
-    const refIndex = Object.keys(this.refs).map((k, i, arr) => arr[i])[0];
-
-    this.refs[refIndex].focus();
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (_.isEqual(nextState.answers, this.state.answers)) {
-      return false;
-    }
-
-    return true;
-  }
-
   handleFocus = (evt) => {
     evt.target.select();
   };
 
+  filterValue = (value) => {
+    if (!value.match(/[abcde]/gi)) {
+      return false;
+    }
+
+    return true;
+  };
+
   handleChange = (index) => (evt) => {
     const val = evt.target.value.toUpperCase();
-
     let value = '';
 
-    if (val !== '') {
-      const other = /^.(.*)/.exec(val)[1];
-      value = val.replace(other, '');
+    if (!this.filterValue(val)) {
+      evt.preventDefault();
+    } else {
+      if (val !== '') {
+        const other = /^.(.*)/.exec(val)[1];
+        value = val.replace(other, '');
 
-      const refs = Object.keys(this.refs).map((k, i, arr) => arr[i]);
+        const refs = Object.keys(this.refs).map((k, i, arr) => arr[i]);
 
-      _.map(refs, (el, i) => {
-        if (parseInt(el) === index) {
-          if (refs[i + 1] !== undefined) {
-            this.refs[refs[i + 1]].focus();
+        _.map(refs, (el, i) => {
+          if (parseInt(el) === index) {
+            if (refs[i + 1] !== undefined) {
+              this.refs[refs[i + 1]].focus();
+            }
           }
-        }
-      });
+        });
+      }
     }
 
     const answers = { ...this.state.answers, [index]: { value } };
@@ -184,6 +195,7 @@ export default class ListItem extends Component {
 
     return (
       <div className="jumbotron">
+        {<pre>handleTouchStart()</pre>}
         <div className="title-box">{this.renderTitle()}</div>
         <ul className="item-list list-group">{this.renderQuestions()}</ul>
         <Button label={btnLabel} callback={this.toNextScreen} disabled={!isDisabled} />

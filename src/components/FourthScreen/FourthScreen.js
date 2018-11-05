@@ -140,47 +140,8 @@ export default class FourthScreen extends Component {
     const secondCount = Object.keys(secondObj).length;
     const total = firstCount + secondCount;
 
-    console.log('fist', Math.round((firstCount / total) * 100));
-    console.log('second', Math.round((secondCount / total) * 100));
-
     return [Math.round((firstCount / total) * 100), Math.round((secondCount / total) * 100)];
   };
-
-  // renderFirstChart = () => {
-  //   const { not1but2, not1not2 } = this.state;
-
-  //   const firstVal = this.getRatio(not1but2, not1not2)[0];
-  //   const secondVal = this.getRatio(not1but2, not1not2)[1];
-
-  //   return {
-  //     labels: ['Misread', 'Conceptual gap'],
-  //     datasets: [
-  //       {
-  //         data: [firstVal, secondVal],
-  //         backgroundColor: ['#008080', '#00b386'],
-  //         hoverBackgroundColor: ['#006666', '#009973'],
-  //       },
-  //     ],
-  //   };
-  // };
-
-  // renderSecondChart = () => {
-  //   const { and1and2, and1not2 } = this.state;
-
-  //   const firstVal = this.getRatio(and1not2, and1and2)[0];
-  //   const secondVal = this.getRatio(and1not2, and1and2)[1];
-
-  //   return {
-  //     labels: ['Self-confidence', 'Self-doubt'],
-  //     datasets: [
-  //       {
-  //         data: [firstVal, secondVal],
-  //         backgroundColor: ['#00b386', '#008080'],
-  //         hoverBackgroundColor: ['#009973', '#006666'],
-  //       },
-  //     ],
-  //   };
-  // };
 
   renderChart = (firstObj, secondObj, labels, bgColor, hoverBgColor) => {
     const firstVal = this.getRatio(firstObj, secondObj)[0];
