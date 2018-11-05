@@ -195,7 +195,6 @@ export default class ListItem extends Component {
 
     return (
       <div className="jumbotron">
-        {<pre>handleTouchStart()</pre>}
         <div className="title-box">{this.renderTitle()}</div>
         <ul className="item-list list-group">{this.renderQuestions()}</ul>
         <Button label={btnLabel} callback={this.toNextScreen} disabled={!isDisabled} />
