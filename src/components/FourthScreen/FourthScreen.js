@@ -7,14 +7,14 @@ import './FourthScreen.css';
 
 export default class FourthScreen extends Component {
   static propTypes = {
-    results: PropTypes.objectOf(PropTypes.objectOf(PropTypes.any))
+    results: PropTypes.objectOf(PropTypes.objectOf(PropTypes.any)),
   };
 
   state = {
     not1but2: '',
     not1not2: '',
     and1and2: '',
-    and1not2: ''
+    and1not2: '',
   };
 
   componentDidMount() {
@@ -28,7 +28,7 @@ export default class FourthScreen extends Component {
     const listWrong = this.props.results[1].listWrong;
 
     if (_.isEmpty(listWrong)) {
-      return 0;
+      return 'None';
     }
 
     return Object.keys(listWrong)
@@ -110,7 +110,7 @@ export default class FourthScreen extends Component {
 
   objToString = (obj) => {
     if (_.isEmpty(obj)) {
-      return '0';
+      return 'None';
     }
 
     return Object.keys(obj)
@@ -134,14 +134,14 @@ export default class FourthScreen extends Component {
         value: this.getRatio(not1but2, results[2].missCount),
         color: '#008080',
         highlight: '#006666',
-        label: 'Misread'
+        label: 'Misread',
       },
       {
         value: this.getRatio(not1not2, results[2].missCount),
         color: '#00b386',
         highlight: '#009973',
-        label: 'Conceptual gap'
-      }
+        label: 'Conceptual gap',
+      },
     ];
   };
 
@@ -154,14 +154,14 @@ export default class FourthScreen extends Component {
         value: this.getRatio(and1and2, results[2].missCount),
         color: '#00b386',
         highlight: '#009973',
-        label: 'Self-condence'
+        label: 'Self-condence',
       },
       {
         value: this.getRatio(and1not2, results[2].missCount),
         color: '#008080',
         highlight: '#006666',
-        label: 'Self-doubt'
-      }
+        label: 'Self-doubt',
+      },
     ];
   };
 
@@ -171,55 +171,75 @@ export default class FourthScreen extends Component {
 
     return (
       <div className="jumbotron">
-        <h1 align="center">Results:</h1>
-
-        <p className="lead">{`You missed ${results[1].missCount} questions on your first pass.`}</p>
-        <p className="lead">{`> [ ${this.renderWrongFirst()} ] were wrong.`}</p>
-        <p className="lead">{`> [ ${this.objToString(results[1].listDecoys)} ] were decoys.`}</p>
+        <p className="lead">{`You missed ${
+          results[1].missCount
+        } on your first pass through the section.`}</p>
+        <p className="lead">{`Real Wrong Answers: ${this.renderWrongFirst()}`}</p>
+        <p className="lead">{`Decoys: ${this.objToString(results[1].listDecoys)}`}</p>
 
         <hr className="my-4" />
+
+        <h2 align="center">Your Camouflage Review Results:</h2>
 
         <p className="lead">{`You missed ${
           results[2].missCount
         } questions on your camouflage review.`}</p>
 
         <div className="statistic">
-          <p className="lead">{`1) You corrected [ ${this.objToString(not1but2)} ].`}</p>
-          <small>This means you likely missed these questions due to misreads.</small>
-        </div>
-
-        <div className="statistic">
-          <p className="lead">{`2) You missed [ ${this.objToString(not1not2)} ] twice.`}</p>
+          <p className="lead">{`CONCEPTUAL GAPS: ${this.objToString(not1but2)}`}</p>
           <small>
-            This means you likely don't understand the concepts these questions are testing. Review
-            them closly.
+            Review these questions closely! Since you missed them twice, there are likely conceptual
+            gaps in your process that need to be remedied for a higher score next time.
           </small>
         </div>
 
-        <p className="lead">{`3) You stuck with your correct answers to [ ${this.objToString(
-          and1and2
-        )} ]!`}</p>
+        <div className="statistic">
+          <p className="lead">{`MISREADS: ${this.objToString(not1not2)}`}</p>
+          <small>
+            These questions were corrected on your second pass, meaning these wrong answers are
+            likely due to rushing, anxiety, and misreads. Improve your focus and translation skills,
+            and these misread wrong answers will decrease.
+          </small>
+        </div>
 
         <div className="statistic">
-          <p className="lead">{`4) You switched away from your correct answers to [ ${this.objToString(
-            and1not2
-          )} ]!`}</p>
-          <small>This means some of your wrong answers likely result from self-doubt.</small>
+          <p className="lead">{`SELF-DOUBT: ${this.objToString(and1and2)}`}</p>
+          <small>
+            These questions were correct on your first pass through the section, but you changed
+            them to an incorrect answer in Camouflage Review. This means a lack of confidence may be
+            costing you points. If you aren’t really sure you’re right, you can easily fall for
+            wrong answer traps the next time you encounter a similar question.
+          </small>
+        </div>
+
+        <div className="statistic">
+          <p className="lead">{`SELF-CONFIDENCE: ${this.objToString(and1not2)}`}</p>
+          <small>
+            You correctly stayed on these decoys. This means you have confidence in your choices and
+            are more likely to remain consistent in your scores.
+          </small>
         </div>
 
         <div className="chart-container">
-          <PieChart
-            data={this.renderFirstChart()}
-            options={{ animationEasing: 'easeInOutCirc' }}
-            width="200"
-            height="200"
-          />
-          <PieChart
-            data={this.renderSecondChart()}
-            options={{ animationEasing: 'easeInOutCirc' }}
-            width="200"
-            height="200"
-          />
+          <div className="chart-section">
+            <p>WRONG ANSWER PROFILE</p>
+            <PieChart
+              data={this.renderFirstChart()}
+              options={{ animationEasing: 'easeInOutCirc' }}
+              width="200"
+              height="200"
+            />
+          </div>
+
+          <div className="chart-section">
+            <p>CORRECT ANSWER PROFILE</p>
+            <PieChart
+              data={this.renderSecondChart()}
+              options={{ animationEasing: 'easeInOutCirc' }}
+              width="200"
+              height="200"
+            />
+          </div>
         </div>
       </div>
     );

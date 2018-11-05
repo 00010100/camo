@@ -22,6 +22,7 @@ export default class ListItem extends Component {
     this.state = {
       value: '',
       answers: this.createState(props.list),
+      listOfReview: this.listOfReview(props.list),
     };
   }
 
@@ -32,6 +33,13 @@ export default class ListItem extends Component {
 
     return obj;
   };
+
+  listOfReview = () =>
+    Object.keys(this.props.list)
+      .map((el) => {
+        return parseInt(el) + 1;
+      })
+      .join(', ');
 
   componentDidMount() {
     const refIndex = Object.keys(this.refs).map((k, i, arr) => arr[i])[0];
@@ -129,20 +137,56 @@ export default class ListItem extends Component {
     nextStep();
   };
 
+  renderTitle = () => {
+    if (this.props.num === 'first') {
+      return (
+        <React.Fragment>
+          <h3 align="center" className="subtitle">
+            Type in the answers for your section below.
+          </h3>
+          <small align="center">
+            Remember, don’t check your answers against the answer key yet. You don’t want to spoil
+            the camouflage!
+          </small>
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <h3 align="center" className="subtitle">
+          Awesome. Here is your Camouflage Review:
+        </h3>
+        <p align="center" className="lead">
+          {this.state.listOfReview}
+        </p>
+
+        <p>
+          Reattempt all of the questions listed here. This list contains all your wrong answers and
+          an unknown number of camouflaged correct answers acting as decoys.
+        </p>
+        <p>
+          The unknown number of decoys will test your confidence in your correct answers, in
+          addition to allowing you a fresh, unspoiled pass at your incorrect answers. This will
+          allow a much more fruitful analysis of the causation behind your wrong answers.
+        </p>
+        <p>Type in your answers to your Camouflage Review below.</p>
+      </React.Fragment>
+    );
+  };
+
   render() {
     const { answers } = this.state;
     const isDisabled = _.every(answers, ({ value }) => value !== '');
 
+    const btnLabel =
+      this.props.num === 'first' ? 'Generate Camo Review' : 'Generate Camo Review Results';
+
     return (
       <div className="jumbotron">
-        <div className="title-box">
-          <h2 align="center" className="subtitle">
-            {`Enter your ${this.props.num} pass answers here:`}
-          </h2>
-          <small align="center">You can enter only: A, B, C, D, E</small>
-        </div>
+        <div className="title-box">{this.renderTitle()}</div>
         <ul className="item-list list-group">{this.renderQuestions()}</ul>
-        <Button label="Submit" callback={this.toNextScreen} disabled={!isDisabled} />
+        <Button label={btnLabel} callback={this.toNextScreen} disabled={!isDisabled} />
       </div>
     );
   }
