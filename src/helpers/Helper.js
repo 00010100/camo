@@ -1,15 +1,13 @@
 import _ from 'lodash';
 
 export default class Helpers {
-  _toObj = (arr) => _.assignIn({}, arr);
-
   _takeObj = (rawData, indexes) => {
     const questions = rawData.questions[indexes.sectionIndex][indexes.titleIndex];
 
     return _.toPlainObject(questions.split(/\s+(?=\d)/));
   };
 
-  _renderRightAnswers = (rawData, indexes) => {
+  renderRightAnswers = (rawData, indexes) => {
     const obj = this._takeObj(rawData, indexes);
 
     let result = {};
@@ -59,7 +57,7 @@ export default class Helpers {
   };
 
   getResults = (data, indexes, answers, decoy) => {
-    const rightAnswers = this._renderRightAnswers(data, indexes);
+    const rightAnswers = this.renderRightAnswers(data, indexes);
 
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
     const listWrong = this._getWrongAnswers(rightAnswers, answers);
@@ -87,7 +85,7 @@ export default class Helpers {
       missCount: this._sumObjValues(filteredAnswers),
       listWrong,
       listMatch,
-      listDecoys
+      listDecoys,
     };
   };
 
@@ -128,7 +126,7 @@ export default class Helpers {
       }
     });
 
-    return this._toObj(filtered);
+    return _.toPlainObject(filtered);
   };
 
   _statisticAnswers = (answers) => {
@@ -139,13 +137,13 @@ export default class Helpers {
       3: 1,
       4: 0.5,
       5: 0.25,
-      6: 0.125
+      6: 0.125,
     };
 
     const length = Object.keys(answers).length;
     const arr = new Array(length);
     arr.fill(0, 0, length);
-    let result = this._toObj(arr);
+    let result = _.toPlainObject(arr);
 
     _.map(answers, (el, i) => {
       const index = parseInt(i);
@@ -154,13 +152,17 @@ export default class Helpers {
         if (el === '1') {
           for (let p = index - 3, i = 0; p <= index + 3; p++, i++) {
             if (result[p] !== undefined) {
-              if (index > 9 && index < Object.keys(result).length) {
-                result[p] += stats[i];
-                if (p > 9) {
-                  result[p] += 0.1;
-                }
+              if (index === 0) {
+                result[p] += 10;
               } else {
-                result[p] += stats[i];
+                if (index > 9 && index < Object.keys(result).length) {
+                  result[p] += stats[i];
+                  if (p > 9) {
+                    result[p] += 0.1;
+                  }
+                } else {
+                  result[p] += stats[i];
+                }
               }
             }
           }
@@ -193,15 +195,15 @@ export default class Helpers {
   };
 
   getDecoy = (data, indexes, answers) => {
-    const rightAnswers = this._renderRightAnswers(data, indexes);
+    const rightAnswers = this.renderRightAnswers(data, indexes);
     const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
     const decoy = this._getDecoy(data, countWrongAnswers);
 
     return decoy;
-  }
+  };
 
   algorithm = (data, indexes, answers, decoy) => {
-    const rightAnswers = this._renderRightAnswers(data, indexes);
+    const rightAnswers = this.renderRightAnswers(data, indexes);
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
     const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
     const stat = this._statisticAnswers(filteredAnswers);

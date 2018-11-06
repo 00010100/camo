@@ -34,10 +34,7 @@ export default class FourthScreen extends Component {
   };
 
   componentDidMount() {
-    this.match();
-    this.matchWithWrong();
-    this.wrongWithMatch();
-    this.wrong();
+    this.handleCalcResults();
   }
 
   renderWrongFirst = () => {
@@ -50,78 +47,6 @@ export default class FourthScreen extends Component {
     return Object.keys(listWrong)
       .map((el) => el !== undefined && parseInt(el) + 1)
       .join(', ');
-  };
-
-  match = () => {
-    const { results } = this.props;
-
-    const obj1 = results[1].listMatch;
-    const obj2 = results[2].listMatch;
-    const and1and2 = {};
-
-    for (let i in obj1) {
-      if (obj1[i] !== undefined && obj2[i] !== undefined) {
-        if (obj1[i] === obj2[i]) {
-          and1and2[i] = obj2[i];
-        }
-      }
-    }
-
-    this.setState({ and1and2 });
-  };
-
-  matchWithWrong = () => {
-    const { results } = this.props;
-
-    const obj1 = results[1].listMatch;
-    const obj2 = results[2].listWrong;
-    const and1not2 = {};
-
-    for (let i in obj1) {
-      if (obj1[i] !== undefined && obj2[i] !== undefined) {
-        if (obj1[i] !== obj2[i]) {
-          and1not2[i] = obj2[i];
-        }
-      }
-    }
-
-    this.setState({ and1not2 });
-  };
-
-  wrongWithMatch = () => {
-    const { results } = this.props;
-
-    const obj1 = results[1].listWrong;
-    const obj2 = results[2].listMatch;
-    const not1but2 = {};
-
-    for (let i in obj1) {
-      if (obj1[i] !== undefined && obj2[i] !== undefined) {
-        if (obj1[i] !== obj2[i]) {
-          not1but2[i] = obj2[i];
-        }
-      }
-    }
-
-    this.setState({ not1but2 });
-  };
-
-  wrong = () => {
-    const { results } = this.props;
-
-    const obj1 = results[1].listWrong;
-    const obj2 = results[2].listWrong;
-    const not1not2 = {};
-
-    for (let i in obj1) {
-      if (obj1[i] !== undefined && obj2[i] !== undefined) {
-        if (obj1[i] === obj2[i]) {
-          not1not2[i] = obj2[i];
-        }
-      }
-    }
-
-    this.setState({ not1not2 });
   };
 
   objToString = (obj) => {
@@ -156,6 +81,40 @@ export default class FourthScreen extends Component {
         },
       ],
     };
+  };
+
+  handleCalcResults = () => {
+    const match1 = this.props.results[1].listMatch;
+    const match2 = this.props.results[2].listMatch;
+    const wrong1 = this.props.results[1].listWrong;
+    const wrong2 = this.props.results[2].listWrong;
+    const right = this.props.results.rightAnswers;
+
+    const not1not2 = {};
+    const not1but2 = {};
+    const and1not2 = {};
+    const and1and2 = {};
+
+    for (let key in right) {
+      if (
+        match1[key] !== undefined ||
+        match2[key] !== undefined ||
+        wrong1[key] !== undefined ||
+        wrong2[key] !== undefined
+      ) {
+        if (match1[key] !== right[key] && match2 !== right[key]) {
+          not1not2[key] = key;
+        } else if (wrong1[key] !== right[key] && match2[key] === right[key]) {
+          not1but2[key] = key;
+        } else if (match1[key] === right[key] && wrong2[key] !== right[key]) {
+          and1not2[key] = key;
+        } else if (match1[key] === right[key] && match2[key] === right[key]) {
+          and1and2[key] = key;
+        }
+      }
+    }
+
+    this.setState({ not1not2, not1but2, and1not2, and1and2 });
   };
 
   render() {
