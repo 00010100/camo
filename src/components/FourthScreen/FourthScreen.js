@@ -84,11 +84,9 @@ export default class FourthScreen extends Component {
   };
 
   handleCalcResults = () => {
-    const match1 = this.props.results[1].listMatch;
-    const match2 = this.props.results[2].listMatch;
-    const wrong1 = this.props.results[1].listWrong;
-    const wrong2 = this.props.results[2].listWrong;
     const right = this.props.results.rightAnswers;
+    const answers1 = this.props.results[1].answers;
+    const answers2 = this.props.results[2].answers;
 
     const not1not2 = {};
     const not1but2 = {};
@@ -96,20 +94,19 @@ export default class FourthScreen extends Component {
     const and1and2 = {};
 
     for (let key in right) {
-      if (
-        match1[key] !== undefined ||
-        match2[key] !== undefined ||
-        wrong1[key] !== undefined ||
-        wrong2[key] !== undefined
-      ) {
-        if (match1[key] !== right[key] && match2 !== right[key]) {
-          not1not2[key] = key;
-        } else if (wrong1[key] !== right[key] && match2[key] === right[key]) {
-          not1but2[key] = key;
-        } else if (match1[key] === right[key] && wrong2[key] !== right[key]) {
-          and1not2[key] = key;
-        } else if (match1[key] === right[key] && match2[key] === right[key]) {
-          and1and2[key] = key;
+      if (answers1[key] !== undefined && answers2[key] !== undefined) {
+        if (!_.isEqual(answers1[key], right[key])) {
+          if (!_.isEqual(answers2[key], right[key])) {
+            not1not2[key] = key;
+          } else {
+            not1but2[key] = key;
+          }
+        } else {
+          if (!_.isEqual(answers2[key], right[key])) {
+            and1not2[key] = key;
+          } else {
+            and1and2[key] = key;
+          }
         }
       }
     }

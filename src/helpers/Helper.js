@@ -151,10 +151,10 @@ export default class Helpers {
       if (el !== undefined) {
         if (el === '1') {
           for (let p = index - 3, i = 0; p <= index + 3; p++, i++) {
-            if (result[p] !== undefined) {
-              if (index === 0) {
-                result[p] += 10;
-              } else {
+            if (index === p) {
+              result[p] += 10;
+            } else {
+              if (result[p] !== undefined) {
                 if (index > 9 && index < Object.keys(result).length) {
                   result[p] += stats[i];
                   if (p > 9) {
@@ -165,6 +165,7 @@ export default class Helpers {
                 }
               }
             }
+            
           }
         }
       }
@@ -187,11 +188,13 @@ export default class Helpers {
   };
 
   clearObj = (obj) => {
+    const newObj = obj;
+
     for (let i in obj) {
-      obj[i] = '';
+      newObj[i] = '';
     }
 
-    return obj;
+    return newObj;
   };
 
   getDecoy = (data, indexes, answers) => {

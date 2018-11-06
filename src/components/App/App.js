@@ -35,13 +35,12 @@ class App extends Component {
   getResults = (answers) => {
     const { data } = this.props;
     const { indexes, activeStep } = this.state;
-    const { getDecoy, getResults, renderRightAnswers } = this.helpers;
+    const { getDecoy, renderRightAnswers } = this.helpers;
 
     const decoy = getDecoy(data, indexes, answers);
-    const res = getResults(data, indexes, answers, decoy);
     const rightAnswers = renderRightAnswers(data, indexes);
 
-    const results = { ...this.state.results, [activeStep]: { ...res }, rightAnswers };
+    const results = { ...this.state.results, [activeStep]: { answers }, rightAnswers };
     this.setState({ results, decoy });
   };
 
