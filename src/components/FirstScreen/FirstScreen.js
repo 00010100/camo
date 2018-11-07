@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Dropdown from '../Dropdown';
 import SectionChoice from '../SectionChoice';
 import Button from '../Button';
+import { getIdxs } from '../../actions';
 import './FirstScreen.css';
 
-export default class FirstScreen extends Component {
+class FirstScreen extends Component {
   static propTypes = {
     nextStep: PropTypes.func.isRequired,
-    getIndexes: PropTypes.func.isRequired,
     titles: PropTypes.objectOf(PropTypes.string).isRequired,
     sections: PropTypes.objectOf(PropTypes.string).isRequired,
   };
@@ -19,11 +20,15 @@ export default class FirstScreen extends Component {
     sectionIndex: 0,
   };
 
+  componentDidMount() {
+    console.log(this.props)
+  }
+
   toNextScreen = () => {
     const { titleIndex, sectionIndex } = this.state;
-    const { nextStep, getIndexes } = this.props;
+    const { nextStep, getIdxs } = this.props;
 
-    getIndexes({ titleIndex, sectionIndex });
+    getIdxs({ titleIndex, sectionIndex });
     nextStep();
   };
 
@@ -92,3 +97,9 @@ export default class FirstScreen extends Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  getIdxs,
+}
+
+export default connect(null, mapDispatchToProps)(FirstScreen);

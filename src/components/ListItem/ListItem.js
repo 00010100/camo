@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import './ListItem.css';
 import Helpers from '../../helpers';
+import { setMyAnswers } from '../../actions';
 
-export default class ListItem extends Component {
+class ListItem extends Component {
   helpers = new Helpers();
 
   static propTypes = {
     list: PropTypes.objectOf(PropTypes.string).isRequired,
     nextStep: PropTypes.func.isRequired,
-    getAnswers: PropTypes.func.isRequired,
-    getResults: PropTypes.func.isRequired,
+    // getResults: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -137,14 +138,26 @@ export default class ListItem extends Component {
     evt.preventDefault();
   };
 
+  handlerFilteredAnswers = (obj) => {
+    const newObj = _.cloneDeep(obj);
+
+    for (let i in newObj) {
+      newObj[i] = newObj[i].value;
+    }
+
+    return newObj;
+  };
+
   toNextScreen = () => {
-    const { nextStep, getAnswers, getResults } = this.props;
+    const { nextStep, setMyAnswers, getResults } = this.props;
     const { answers } = this.state;
 
-    const filterAnswers = this.helpers.filterAnswers(answers);
+    const filteredAnswers = this.handlerFilteredAnswers(answers);
 
-    getAnswers(filterAnswers);
-    getResults(filterAnswers);
+    console.log('filterAnswers', filteredAnswers);
+
+    setMyAnswers(filteredAnswers);
+    // getResults(filterAnswers);
     nextStep();
   };
 
@@ -202,3 +215,14 @@ export default class ListItem extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {
+  setMyAnswers,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListItem);

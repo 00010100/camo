@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import rawData from '../../data/data.json';
+import { setData } from '../../actions';
 
-const GetDataHOC = (WrappedComponent) => {
+// import rawData from '../../data/data.json';
+
+const withData = (WrappedComponent) => {
   return class GetData extends Component {
+    componentDidMount() {
+      // this.props.setData(this.getData(rawData));
+    }
+
     getData = (rawData) => {
       const data = rawData.data;
 
@@ -15,21 +22,24 @@ const GetDataHOC = (WrappedComponent) => {
           0: data[1][0],
           1: data[3][0],
           2: data[5][0],
-          3: data[7][0]
+          3: data[7][0],
         },
         questions: {
           0: _.toPlainObject(data[2]),
           1: _.toPlainObject(data[4]),
           2: _.toPlainObject(data[6]),
-          3: _.toPlainObject(data[8])
-        }
+          3: _.toPlainObject(data[8]),
+        },
       };
     };
 
     render() {
-      return <WrappedComponent data={this.getData(rawData)} />;
+      console.log(this.props.data)
+      // if (!this.state.data) return <p>Loading...</p>;
+
+      return <WrappedComponent {...this.state} {...this.props} />;
     }
   };
 };
 
-export default GetDataHOC;
+export default withData;
