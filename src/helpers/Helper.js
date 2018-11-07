@@ -58,11 +58,7 @@ export default class Helpers {
 
   getResults = (data, indexes, answers, decoy) => {
     const rightAnswers = this.renderRightAnswers(data, indexes);
-
     const filteredAnswers = this._getAllAnswers(rightAnswers, answers);
-    const listWrong = this._getWrongAnswers(rightAnswers, answers);
-    const listMatch = this._getMatchAnswers(rightAnswers, answers);
-
     const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
     const stat = this._statisticAnswers(filteredAnswers);
     const camouflageCount = _.sum([countWrongAnswers, decoy]);
@@ -83,8 +79,6 @@ export default class Helpers {
 
     return {
       missCount: this._sumObjValues(filteredAnswers),
-      listWrong,
-      listMatch,
       listDecoys,
     };
   };

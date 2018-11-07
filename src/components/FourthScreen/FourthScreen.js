@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Pie } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Pie } from 'react-chartjs-2';
 
 import './FourthScreen.css';
+import StatisticBox from '../StatisticBox';
 
 const options = {
   tooltips: {
@@ -31,22 +32,35 @@ export default class FourthScreen extends Component {
     not1not2: '',
     and1and2: '',
     and1not2: '',
+    realWrong: '',
   };
 
   componentDidMount() {
     this.handleCalcResults();
+    this.renderWrongFirst();
   }
 
   renderWrongFirst = () => {
-    const listWrong = this.props.results[1].listWrong;
+    const { results } = this.props;
 
-    if (_.isEmpty(listWrong)) {
-      return 'None';
+    const answers = results[1].answers;
+    const rightAnswers = results.rightAnswers;
+
+    let wrong = {};
+
+    for (let key in rightAnswers) {
+      if (answers[key] !== undefined) {
+        if (!_.isEqual(answers[key], rightAnswers[key])) {
+          wrong[key] = key;
+        }
+      }
     }
 
-    return Object.keys(listWrong)
-      .map((el) => el !== undefined && parseInt(el) + 1)
+    const realWrong = Object.keys(wrong)
+      .map((el) => parseInt(el) + 1)
       .join(', ');
+
+    this.setState({ realWrong });
   };
 
   objToString = (obj) => {
@@ -123,7 +137,7 @@ export default class FourthScreen extends Component {
         <p className="lead">{`You missed ${
           results[1].missCount
         } on your first pass through the section.`}</p>
-        <p className="lead">{`Real Wrong Answers: ${this.renderWrongFirst()}`}</p>
+        <p className="lead">{`Real Wrong Answers: ${this.state.realWrong}`}</p>
         <p className="lead">{`Decoys: ${this.objToString(results[1].listDecoys)}`}</p>
 
         <hr className="my-4" />
@@ -134,40 +148,36 @@ export default class FourthScreen extends Component {
           results[2].missCount
         } questions on your camouflage review.`}</p>
 
-        <div className="statistic">
-          <p className="lead">{`CONCEPTUAL GAPS: ${this.objToString(not1not2)}`}</p>
-          <small>
-            Review these questions closely! Since you missed them twice, there are likely conceptual
-            gaps in your process that need to be remedied for a higher score next time.
-          </small>
-        </div>
+        <StatisticBox
+          resultList={this.objToString(not1not2)}
+          title="CONCEPTUAL GAPS"
+          content="Review these questions closely! Since you missed them twice, there are likely conceptual
+            gaps in your process that need to be remedied for a higher score next time."
+        />
+        <StatisticBox
+          resultList={this.objToString(not1but2)}
+          title="MISREADS"
+          content="These questions were corrected on your second pass, meaning these wrong answers are
+          likely due to rushing, anxiety, and misreads. Improve your focus and translation skills,
+          and these misread wrong answers will decrease."
+        />
+        <StatisticBox
+          resultList={this.objToString(and1not2)}
+          title="SELF-DOUBT"
+          content="These questions were correct on your first pass through the section, but you changed
+          them to an incorrect answer in Camouflage Review. This means a lack of confidence may be
+          costing you points. If you aren’t really sure you’re right, you can easily fall for
+          wrong answer traps the next time you encounter a similar question."
+        />
+        <StatisticBox
+          resultList={this.objToString(and1and2)}
+          title="SELF-CONFIDENCE"
+          content="These questions were correct on your first pass through the section, but you changed
+          them to an incorrect answer in Camouflage Review. This means a lack of confidence may be
+          costing you points. If you aren’t really sure you’re right, you can easily fall for
+          wrong answer traps the next time you encounter a similar question."
+        />
 
-        <div className="statistic">
-          <p className="lead">{`MISREADS: ${this.objToString(not1but2)}`}</p>
-          <small>
-            These questions were corrected on your second pass, meaning these wrong answers are
-            likely due to rushing, anxiety, and misreads. Improve your focus and translation skills,
-            and these misread wrong answers will decrease.
-          </small>
-        </div>
-
-        <div className="statistic">
-          <p className="lead">{`SELF-DOUBT: ${this.objToString(and1not2)}`}</p>
-          <small>
-            These questions were correct on your first pass through the section, but you changed
-            them to an incorrect answer in Camouflage Review. This means a lack of confidence may be
-            costing you points. If you aren’t really sure you’re right, you can easily fall for
-            wrong answer traps the next time you encounter a similar question.
-          </small>
-        </div>
-
-        <div className="statistic">
-          <p className="lead">{`SELF-CONFIDENCE: ${this.objToString(and1and2)}`}</p>
-          <small>
-            You correctly stayed on these decoys. This means you have confidence in your choices and
-            are more likely to remain consistent in your scores.
-          </small>
-        </div>
         <div className="chart-container">
           <div className="chart-section">
             <p>WRONG ANSWER PROFILE</p>

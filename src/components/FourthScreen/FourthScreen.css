@@ -8,18 +8,6 @@
   margin-right: 22px;
 }
 
-.statistic p {
-  margin-bottom: 0;
-}
-
-.statistic small {
-  font-size: 90%;
-}
-
-.statistic {
-  margin-bottom: 1rem;
-}
-
 @media only screen and (max-width: 480px) {
   .chart-container {
     flex-wrap: wrap;

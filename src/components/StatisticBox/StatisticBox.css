@@ -1,0 +1,11 @@
+.statistic p {
+  margin-bottom: 0;
+}
+
+.statistic small {
+  font-size: 90%;
+}
+
+.statistic {
+  margin-bottom: 1rem;
+}
