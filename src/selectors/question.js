@@ -1,62 +1,51 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
-import { filterData, getTitleAndSectionIndexes, getRightAnswers, getMyAnswers, getWrongAnswersLength } from '../selectors';
+import {
+  filterData,
+  getTitleAndSectionIndexes,
+  getStatisticAnswers,
+  getCamouflageCount,
+} from '../selectors';
 
-const getIdxes = (state) => getTitleAndSectionIndexes(state);
-const getRawQuestions = (state) => filterData(state).questions;
+export const getRawQuestions = (state) => filterData(state).questions;
 
-const getRightAnswersSelector = (state) => getRightAnswers(state);
-const getMyAnswersSelector = (state) => getMyAnswers(state);
+export const getFilteredQuestions = createSelector(
+  [getRawQuestions, getTitleAndSectionIndexes],
+  (questions, indexes) => {
+    const questionsRaw = questions[indexes.sectionIndex][indexes.titleIndex];
 
-const as = (state) => getWrongAnswersLength(state);
+    return _.toPlainObject(questionsRaw.split(/\s+(?=\d)/));
+  },
+);
 
-export const getFilteredQuestions = createSelector([getRawQuestions, getIdxes], (questions, indexes) => {
-  const questionsRaw = questions[indexes.sectionIndex][indexes.titleIndex];
-
-  return _.toPlainObject(questionsRaw.split(/\s+(?=\d)/));
-});
-
-export const getQuestions = createSelector([getRawQuestions, getIdxes], (questions, indexes) => {
-  // const questionsObj = filteredQuestions(questions, indexes);
-  const questionsRaw = questions[indexes.sectionIndex][indexes.titleIndex];
-
-  const questionsObj = _.toPlainObject(questionsRaw.split(/\s+(?=\d)/));
-
+const clearValue = (obj) => {
   const result = {};
 
-  for (let key in questionsObj) {
-    result[key] = '';
+  for (let key in obj) {
+    result[key] = { value: '' };
   }
 
   return result;
-});
+};
 
-export const getDecoy = createSelector([as], (wrongLength) => {
-  console.log('wrongLength', wrongLength)
-})
+export const getQuestions = createSelector([getFilteredQuestions], (questions) =>
+  clearValue(questions),
+);
 
-// export const getDecoy = createSelector([getRawQuestions, getAnswers, getIdxes, getRightAnswers], (questions, answers, indexes, rightAnswers) => {
-//   // const questionsObj = filteredQuestions(questions, indexes);
-//   const questionsRaw = questions[indexes.sectionIndex][indexes.titleIndex];
+export const getCamouflageQuestions = createSelector(
+  [getStatisticAnswers, getCamouflageCount],
+  (answers, camouflageCount) => {
+    if (answers) {
+      const camouflageQuestions = _(answers)
+        .map((el, index) => [index, el])
+        .orderBy([(el) => el[1]], ['desc'])
+        .slice([0], [camouflageCount])
+        .fromPairs()
+        .value();
 
-//   const questionsObj = _.toPlainObject(questionsRaw.split(/\s+(?=\d)/));
-//   console.log('questionsObj', questionsObj)
-//   console.log('answers', answers)
-//   console.log('indexes', indexes)
-//   console.log('rightAnswers', rightAnswers)
 
-//   // getDecoy = (data, indexes, answers) => {
-//   //   const rightAnswers = this.renderRightAnswers(data, indexes);
-//   //   const countWrongAnswers = this._getWrongAnswersLength(rightAnswers, answers);
-//   //   const decoy = this._getDecoy(data, countWrongAnswers);
-
-//   //   return decoy;
-//   // };
-// })
-
-// export const getCamouflageQuestions = createSelector([getRawQuestions, getAnswers, getIdxes], (questions, answers, indexes) => {
-//   console.log('questions', questions)
-//   console.log('answers', answers)
-//   console.log('indexes', indexes)
-// })
+      return clearValue(camouflageQuestions);
+    }
+  },
+);

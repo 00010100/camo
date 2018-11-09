@@ -7,11 +7,11 @@ import './SectionChoice.css';
 export default class SectionChoice extends Component {
   static propTypes = {
     choiceSection: PropTypes.func.isRequired,
-    sections: PropTypes.objectOf(PropTypes.string).isRequired
+    sections: PropTypes.objectOf(PropTypes.string).isRequired,
   };
 
   state = {
-    activeIndex: 0
+    activeIndex: 0,
   };
 
   handleRadio = (evt) => {

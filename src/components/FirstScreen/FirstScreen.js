@@ -20,10 +20,6 @@ class FirstScreen extends Component {
     sectionIndex: 0,
   };
 
-  componentDidMount() {
-    console.log(this.props)
-  }
-
   toNextScreen = () => {
     const { titleIndex, sectionIndex } = this.state;
     const { nextStep, getIdxs } = this.props;
@@ -98,8 +94,7 @@ class FirstScreen extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  getIdxs,
-}
-
-export default connect(null, mapDispatchToProps)(FirstScreen);
+export default connect(
+  null,
+  { getIdxs },
+)(FirstScreen);

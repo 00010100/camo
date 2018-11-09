@@ -11,14 +11,14 @@ const getData = (rawData) => {
       0: data[1][0],
       1: data[3][0],
       2: data[5][0],
-      3: data[7][0]
+      3: data[7][0],
     },
     questions: {
       0: _.toPlainObject(data[2]),
       1: _.toPlainObject(data[4]),
       2: _.toPlainObject(data[6]),
-      3: _.toPlainObject(data[8])
-    }
+      3: _.toPlainObject(data[8]),
+    },
   };
 };
 

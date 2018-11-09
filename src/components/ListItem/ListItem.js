@@ -5,27 +5,20 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import './ListItem.css';
-import Helpers from '../../helpers';
 import { setMyAnswers } from '../../actions';
+import { getQuestions, getCamouflageQuestions, getListOfReview } from '../../selectors';
 
 class ListItem extends Component {
-  helpers = new Helpers();
-
   static propTypes = {
-    list: PropTypes.objectOf(PropTypes.string).isRequired,
     nextStep: PropTypes.func.isRequired,
-    // getResults: PropTypes.func.isRequired,
+    questions: PropTypes.objectOf(PropTypes.object).isRequired,
+    listOfReview: PropTypes.string.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      value: '',
-      answers: this.createState(props.list),
-      listOfReview: this.listOfReview(props.list),
-    };
-  }
+  state = {
+    value: '',
+    answers: this.props.questions,
+  };
 
   componentDidMount() {
     const refIndex = Object.keys(this.refs).map((k, i, arr) => arr[i])[0];
@@ -40,21 +33,6 @@ class ListItem extends Component {
 
     return true;
   }
-
-  createState = (obj) => {
-    for (let i in obj) {
-      obj[i] = { value: '' };
-    }
-
-    return obj;
-  };
-
-  listOfReview = () =>
-    Object.keys(this.props.list)
-      .map((el) => {
-        return parseInt(el) + 1;
-      })
-      .join(', ');
 
   handleFocus = (evt) => {
     evt.target.select();
@@ -149,20 +127,17 @@ class ListItem extends Component {
   };
 
   toNextScreen = () => {
-    const { nextStep, setMyAnswers, getResults } = this.props;
+    const { nextStep, setMyAnswers, activeStep } = this.props;
     const { answers } = this.state;
 
     const filteredAnswers = this.handlerFilteredAnswers(answers);
 
-    console.log('filterAnswers', filteredAnswers);
-
-    setMyAnswers(filteredAnswers);
-    // getResults(filterAnswers);
+    setMyAnswers({ step: activeStep, list: filteredAnswers });
     nextStep();
   };
 
   renderTitle = () => {
-    if (this.props.num === 'first') {
+    if (this.props.activeStep === 1) {
       return (
         <React.Fragment>
           <h3 align="center" className="subtitle">
@@ -182,9 +157,8 @@ class ListItem extends Component {
           Awesome. Here is your Camouflage Review:
         </h3>
         <p align="center" className="lead">
-          {this.state.listOfReview}
+          {this.props.listOfReview ? this.props.listOfReview : 'None'}
         </p>
-
         <p>
           Reattempt all of the questions listed here. This list contains all your wrong answers and
           an unknown number of camouflaged correct answers acting as decoys.
@@ -200,11 +174,8 @@ class ListItem extends Component {
   };
 
   render() {
-    const { answers } = this.state;
-    const isDisabled = _.every(answers, ({ value }) => value !== '');
-
     const btnLabel =
-      this.props.num === 'first' ? 'Generate Camo Review' : 'Generate Camo Review Results';
+      this.props.activeStep === 1 ? 'Generate Camo Review' : 'Generate Camo Review Results';
 
     return (
       <div className="jumbotron">
@@ -216,13 +187,12 @@ class ListItem extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {
-  setMyAnswers,
-};
+const mapStateToProps = (state, props) => ({
+  questions: props.activeStep === 1 ? getQuestions(state) : getCamouflageQuestions(state),
+  listOfReview: getListOfReview(state),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { setMyAnswers },
 )(ListItem);

@@ -16,7 +16,7 @@ const Button = ({ label, disabled = false, callback }) => {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  callback: PropTypes.func.isRequired
+  callback: PropTypes.func.isRequired,
 };
 
 export default Button;

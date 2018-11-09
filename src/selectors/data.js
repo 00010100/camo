@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
-const getRawData = (state) => state.data.data;
-
+export const getRawData = (state) => state.data.data;
 export const getTitleAndSectionIndexes = (state) => state.data.indexes;
 
 export const filterData = createSelector([getRawData], (data) => ({

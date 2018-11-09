@@ -3,6 +3,7 @@ import { setMyAnswers } from '../actions';
 
 const initialState = {
   answers: null,
+  forStatAnswers: null,
 };
 
 export default createReducer(
@@ -10,7 +11,11 @@ export default createReducer(
     [setMyAnswers]: (state, payload) => ({
       ...state,
       answers: payload,
+      forStatAnswers: {
+        ...state.forStatAnswers,
+        [payload.step]: payload.list,
+      },
     }),
   },
-  initialState
+  initialState,
 );
