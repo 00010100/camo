@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import './Dropdown.css';
 
 export default class Dropdown extends Component {
+  static propTypes = {
+    choiceTitle: PropTypes.func.isRequired,
+    titles: PropTypes.objectOf(PropTypes.string).isRequired
+  };
+
   state = {
-    titleIndex: 0,
+    titleIndex: 0
   };
 
-  handleChange = (event) => {
-    this.setState({ titleIndex: event.target.value });
-    this.props.choiceTitle(event.target.value);
+  handleChange = (evt) => {
+    this.setState({ titleIndex: parseInt(evt.target.value) });
+    this.props.choiceTitle(parseInt(evt.target.value));
   };
 
-  renderOptions = () =>
-    this.props.titles.map((title, index) => (
+  renderOptions = () => {
+    const { titles } = this.props;
+
+    return _.map(titles, (title, index) => (
       <option key={index} value={index}>
         {title}
       </option>
     ));
+  };
 
   render() {
     return (

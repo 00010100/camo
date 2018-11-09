@@ -1,58 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import './SectionChoice.css';
 
 export default class SectionChoice extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    choiceSection: PropTypes.func.isRequired,
+    sections: PropTypes.objectOf(PropTypes.string).isRequired,
+  };
 
-    this.state = {
-      activeIndex: 0,
-    };
-  }
+  state = {
+    activeIndex: 0,
+  };
 
-  handleRadio = (event) => {
-    this.setState({ activeIndex: event.target.value });
-    this.props.choiceSection(Number(event.target.value));
+  handleRadio = (evt) => {
+    this.setState({ activeIndex: parseInt(evt.target.value) });
+    this.props.choiceSection(parseInt(evt.target.value));
   };
 
   renderSection() {
-    return this.props.sections.map((item, index) => {
-      const isCurrent = Number(this.state.activeIndex) === index;
+    const { sections } = this.props;
+
+    return _.map(sections, (item, i) => {
+      const index = parseInt(i);
+      const isCurrent = this.state.activeIndex === index;
       const selected = isCurrent ? 'active' : '';
 
       return (
         <label className={`btn btn-info ${selected}`} key={item}>
-          <input type="radio" name="options" onChange={this.handleRadio} value={index} /> {index + 1}
+          <input type="radio" name="options" onChange={this.handleRadio} value={index} />
+          {index + 1}
         </label>
       );
-
-      // return (
-      //   <div key={item} className="radioPad">
-      //     <label className={isCurrent ? 'radioPad__wrapper radioPad__wrapper--selected' : 'radioPad__wrapper'}>
-      //       <input
-      //         className="radioPad__radio"
-      //         type="radio"
-      //         name="sectionTypes"
-      //         id={item}
-      //         value={index}
-      //         onChange={this.handleRadio}
-      //       />
-      //       {index + 1}
-      //     </label>
-      //   </div>
-      // );
     });
   }
 
   render() {
     return (
-      <React.Fragment>
+      <Fragment>
         <p align="center">Section: </p>
         <div className="btn-group btn-group-toggle button-container" data-toggle="buttons">
           {this.renderSection()}
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

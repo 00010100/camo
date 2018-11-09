@@ -1,62 +1,59 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import mockData from '../../mock';
 import FirstScreen from '../FirstScreen';
-import SecondScreen from '../SecondScreen';
+import ListItem from '../ListItem';
+import FourthScreen from '../FourthScreen';
+import { getTitles, getSections } from '../../selectors';
 
-export default class App extends Component {
-  state = {
-    activeStep: 0,
-    indexes: {
-      titleIndex: 0,
-      sectionIndex: 0
-    },
+import './App.css';
+
+class App extends Component {
+  static propTypes = {
+    titles: PropTypes.objectOf(PropTypes.string).isRequired,
+    sections: PropTypes.objectOf(PropTypes.string).isRequired,
   };
 
-  handleNext = (indexes) => {
+  state = {
+    activeStep: 0,
+  };
+
+  nextStep = () => {
     this.setState(({ activeStep }) => ({
       activeStep: activeStep + 1,
-      indexes
     }));
   };
 
-
   getStepContent = (step) => {
-    const { indexes } = this.state;
-    const questions = mockData.questions[indexes.titleIndex][indexes.sectionIndex];
+    const { titles, sections } = this.props;
+    const { activeStep } = this.state;
 
     switch (step) {
-      case 0:
-        return <FirstScreen data={mockData} nextStep={this.handleNext} />;
-      case 1:
-        return (
-          <SecondScreen
-            nextStep={this.handleNext}
-            questions={questions}
-          />
-        );
-      case 2:
-        return (
-          <div />
-          // <ThirdScreen nextStep={this.handleNext} />
-        );
-      case 3:
-        return (
-          <div />
-          // <FourthScreen />
-        );
-      default:
-        throw new Error('Unknown step');
+    case 0:
+      return <FirstScreen titles={titles} sections={sections} nextStep={this.nextStep} />;
+    case 1:
+      return <ListItem key={activeStep} activeStep={activeStep} nextStep={this.nextStep} />;
+    case 2:
+      return <ListItem key={activeStep} activeStep={activeStep} nextStep={this.nextStep} />;
+    case 3:
+      return <FourthScreen />;
+    default:
+      throw new Error('Unknown step');
     }
   };
 
   render() {
-    const { activeStep } = this.state;
-
-    return (
-      <div>
-        {this.getStepContent(activeStep)}
-      </div>
-    );
+    return <div>{this.getStepContent(this.state.activeStep)}</div>;
   }
 }
+
+const mapStateToProps = (state) => ({
+  titles: getTitles(state),
+  sections: getSections(state),
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(App);
