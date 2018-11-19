@@ -21,7 +21,7 @@ export const getRightAnswers = createSelector(
       const el = defaultAnswers[key].trim();
       rightAnswers[key] = el.substring(el.length - 1);
     }
-
+    
     return rightAnswers;
   },
 );

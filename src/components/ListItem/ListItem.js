@@ -144,8 +144,9 @@ class ListItem extends Component {
             Type in the answers for your section below.
           </h3>
           <small align="center">
-            Remember, {' '}<span className="bold">don’t check your answers against the answer key yet.</span>{' '} You don’t
-            want to spoil the camouflage!
+            Remember,{' '}
+            <span className="bold">don’t check your answers against the answer key yet.</span> You
+            don’t want to spoil the camouflage!
           </small>
         </div>
       );

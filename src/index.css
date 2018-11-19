@@ -2,5 +2,7 @@
   font-family: 'hvd';
   src:
     local('BrandonGrotesque-Regular'),
-    url(./fonts/HVD\ Fonts\ -\ BrandonGrotesque-Regular.otf) format('otf');
+    url(./fonts/HVD\ Fonts\ -\ BrandonGrotesque-Regular.otf) format('otf'),
+    url(./fonts/HVD\ Fonts\ -\ BrandonGrotesque-Regular.woff) format('woff'),
+    url(./fonts/HVD\ Fonts\ -\ BrandonGrotesque-Regular.woff2) format('woff2');
 }

@@ -36,7 +36,8 @@ const options = {
 class FourthScreen extends Component {
   static propTypes = {
     wrongFirstPassAnswers: PropTypes.string.isRequired,
-    wrongFirstPassAnswersLength: PropTypes.number.isRequired,
+    wrongFirstPassAnswersLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
     wrongSecondPassAnswersLength: PropTypes.number.isRequired,
     decoysList: PropTypes.string.isRequired,
     statistics: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -65,6 +66,8 @@ class FourthScreen extends Component {
       statistics,
       chartsValues,
     } = this.props;
+
+    console.log('wrongFirstPassAnswersLength', wrongFirstPassAnswersLength);
 
     return (
       <div className="jumbotron stat">
@@ -106,24 +109,26 @@ class FourthScreen extends Component {
         />
 
         <div className="chart-container">
-          <div className="chart-section">
-            <p>WRONG ANSWER PROFILE</p>
-            <Pie
-              data={this.renderChart(
-                chartsValues.firstValue,
-                chartsValues.secondValue,
-                ['Misread', 'Conceptual gaps'],
-                ['#00b386', '#008080'],
-                ['#009973', '#006666']
-              )}
-              width={200}
-              height={200}
-              options={options}
-            />
-          </div>
+          {typeof wrongFirstPassAnswersLength !== 'string' && (
+            <div className="chart-section">
+              <p>WRONG ANSWER PROFILE</p>
+              <Pie
+                data={this.renderChart(
+                  chartsValues.firstValue,
+                  chartsValues.secondValue,
+                  ['Misread', 'Conceptual gaps'],
+                  ['#00b386', '#008080'],
+                  ['#009973', '#006666']
+                )}
+                width={200}
+                height={200}
+                options={options}
+              />
+            </div>
+          )}
           {chartsValues.thirdValue !== undefined && chartsValues.fourthValue !== undefined && (
             <div className="chart-section">
-              <p>CORRECT ANSWER PROFILE</p> 
+              <p>CORRECT ANSWER PROFILE</p>
               <Pie
                 data={this.renderChart(
                   chartsValues.thirdValue,

@@ -13,6 +13,7 @@
 .statistic-inner {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: flex-start;
 }
 
