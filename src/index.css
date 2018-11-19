@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'hvd';
+  src:
+    local('BrandonGrotesque-Regular'),
+    url(./fonts/HVD\ Fonts\ -\ BrandonGrotesque-Regular.otf) format('otf');
+}

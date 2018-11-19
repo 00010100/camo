@@ -28,7 +28,7 @@ export default class SectionChoice extends Component {
       const selected = isCurrent ? 'active' : '';
 
       return (
-        <label className={`btn btn-info ${selected}`} key={item}>
+        <label className={`btn btn-primary ${selected}`} key={item}>
           <input type="radio" name="options" onChange={this.handleRadio} value={index} />
           {index + 1}
         </label>

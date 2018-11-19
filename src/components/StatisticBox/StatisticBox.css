@@ -9,3 +9,18 @@
 .statistic {
   margin-bottom: 1rem;
 }
+
+.statistic-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.statistic-inner .lead {
+  margin-right: 5px;
+}
+
+.statistic .lead {
+  font-weight: 700;
+  color: #6bbbae;
+}

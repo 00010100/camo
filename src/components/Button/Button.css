@@ -4,3 +4,24 @@
   align-items: center;
   justify-content: center;
 }
+
+.btn {
+  border: none;
+  border-radius: 0;
+  text-transform: uppercase;
+  padding: 16px 34px 15px 34px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: #6bbbae;
+}
+
+.btn-primary:hover {
+  background-color: #449588;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active {
+  background-color: #449588;
+}

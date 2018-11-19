@@ -64,17 +64,15 @@ class FourthScreen extends Component {
       chartsValues,
     } = this.props;
 
-    console.log('wrongFirstPassAnswersLength', wrongFirstPassAnswersLength);
-
     return (
-      <div className="jumbotron">
+      <div className="jumbotron stat">
         <p className="lead">{`You missed ${wrongFirstPassAnswersLength} on your first pass through the section.`}</p>
         <p className="lead">{`Real Wrong Answers: ${wrongFirstPassAnswers}`}</p>
         <p className="lead">{`Decoys: ${decoysList}`}</p>
 
         <hr className="my-4" />
 
-        <h2 align="center">Your Camouflage Review Results:</h2>
+        <h2 align="center">Your Camouflage Review Results</h2>
 
         <p className="lead">{`You missed ${wrongSecondPassAnswersLength} questions on your camouflage review.`}</p>
 

@@ -26,6 +26,11 @@
   font-size: 14px;
 }
 
+.subtitle {
+  font-weight: 700;
+  color: #6bbbae;
+}
+
 @media only screen and (max-width: 768px) {
   .subtitle {
     font-size: 28px;

@@ -16,7 +16,7 @@ export const getFilteredQuestions = createSelector(
     const questionsRaw = questions[indexes.sectionIndex][indexes.titleIndex];
 
     return _.toPlainObject(questionsRaw.split(/\s+(?=\d)/));
-  },
+  }
 );
 
 const clearValue = (obj) => {
@@ -29,8 +29,9 @@ const clearValue = (obj) => {
   return result;
 };
 
-export const getQuestions = createSelector([getFilteredQuestions], (questions) =>
-  clearValue(questions),
+export const getQuestions = createSelector(
+  [getFilteredQuestions],
+  (questions) => clearValue(questions)
 );
 
 export const getCamouflageQuestions = createSelector(
@@ -44,8 +45,7 @@ export const getCamouflageQuestions = createSelector(
         .fromPairs()
         .value();
 
-
       return clearValue(camouflageQuestions);
     }
-  },
+  }
 );
