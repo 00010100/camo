@@ -38,7 +38,8 @@ class FourthScreen extends Component {
     wrongFirstPassAnswers: PropTypes.string.isRequired,
     wrongFirstPassAnswersLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
       .isRequired,
-    wrongSecondPassAnswersLength: PropTypes.number.isRequired,
+    wrongSecondPassAnswersLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
     decoysList: PropTypes.string.isRequired,
     statistics: PropTypes.objectOf(PropTypes.string).isRequired,
     chartsValues: PropTypes.objectOf(PropTypes.number).isRequired,
@@ -67,7 +68,7 @@ class FourthScreen extends Component {
       chartsValues,
     } = this.props;
 
-    console.log('wrongFirstPassAnswersLength', wrongFirstPassAnswersLength);
+    console.log('wrongFirstPassAnswers', wrongFirstPassAnswers);
 
     return (
       <div className="jumbotron stat">

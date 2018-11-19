@@ -3,8 +3,6 @@ import _ from 'lodash';
 
 import { objectToString } from '../helpers';
 import {
-  getStatisticAnswers,
-  getCamouflageCount,
   getDecoys,
   getCamouflageQuestions,
   getFirstPassAnswers,
@@ -13,25 +11,16 @@ import {
 } from '../selectors';
 
 export const getListDecoys = createSelector(
-  [getStatisticAnswers, getCamouflageCount, getDecoys],
-  (answers, camouflageCount, decoys) => {
-    if (answers && camouflageCount) {
-      const camouflageQuestions = _(answers)
-        .map((el, index) => [index, el])
-        .orderBy([(el) => el[1]], ['desc'])
-        .slice([0], [camouflageCount])
-        .fromPairs()
-        .value();
+  [getCamouflageQuestions, getDecoys],
+  (camouflageQuestions, decoys) => {
+    const decoysList = _(camouflageQuestions)
+      .map((el, index) => [index, el])
+      .orderBy([(el) => el[1]], ['asc'])
+      .slice([0], [decoys])
+      .fromPairs()
+      .value();
 
-      const decoysList = _(camouflageQuestions)
-        .map((el, index) => [index, el])
-        .orderBy([(el) => el[1]], ['asc'])
-        .slice([0], [decoys])
-        .fromPairs()
-        .value();
-
-      return decoysList;
-    }
+    return decoysList;
   }
 );
 

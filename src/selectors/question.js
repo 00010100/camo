@@ -60,7 +60,12 @@ export const getCamouflageQuestions = createSelector(
           .value();
       }
 
-      return clearValue(camouflageQuestions);
+      return camouflageQuestions;
     }
   }
+);
+
+export const getClearCamouflageQuestions = createSelector(
+  [getCamouflageQuestions],
+  (camouflageQuestions) => clearValue(camouflageQuestions)
 );

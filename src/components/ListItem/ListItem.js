@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import './ListItem.css';
 import { setMyAnswers } from '../../actions';
-import { getQuestions, getCamouflageQuestions, getListOfReview } from '../../selectors';
+import { getQuestions, getClearCamouflageQuestions, getListOfReview } from '../../selectors';
 
 class ListItem extends Component {
   static propTypes = {
@@ -189,7 +189,7 @@ class ListItem extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  questions: props.activeStep === 1 ? getQuestions(state) : getCamouflageQuestions(state),
+  questions: props.activeStep === 1 ? getQuestions(state) : getClearCamouflageQuestions(state),
   listOfReview: getListOfReview(state),
 });
 
