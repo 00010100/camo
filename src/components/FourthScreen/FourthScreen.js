@@ -20,12 +20,14 @@ const options = {
     callbacks: {
       label: (tooltipItem, data) => {
         const dataset = data.datasets[tooltipItem.datasetIndex];
+        const labelset = data.labels[tooltipItem.index];
+
         const total = dataset.data.reduce(
-          (previousValue, currentValue) => previousValue + currentValue,
+          (previousValue, currentValue) => previousValue + currentValue
         );
         const currentValue = dataset.data[tooltipItem.index];
         const percentage = Math.floor((currentValue / total) * 100 + 0.5);
-        return percentage + '%';
+        return `${labelset}: ${percentage}%`;
       },
     },
   },
@@ -112,24 +114,23 @@ class FourthScreen extends Component {
                 chartsValues.secondValue,
                 ['Misread', 'Conceptual gaps'],
                 ['#00b386', '#008080'],
-                ['#006666', '#009973'],
+                ['#009973', '#006666']
               )}
               width={200}
               height={200}
               options={options}
             />
           </div>
-          {chartsValues.thirdValue !== undefined &&
-            chartsValues.fourthValue !== undefined && (
+          {chartsValues.thirdValue !== undefined && chartsValues.fourthValue !== undefined && (
             <div className="chart-section">
-              <p>CORRECT ANSWER PROFILE</p>
+              <p>CORRECT ANSWER PROFILE</p> 
               <Pie
                 data={this.renderChart(
                   chartsValues.thirdValue,
                   chartsValues.fourthValue,
                   ['Self-confidence', 'Self-doubt'],
-                  ['#008080', '#00b386'],
-                  ['#009973', '#006666'],
+                  ['#00b386', '#008080'],
+                  ['#009973', '#006666']
                 )}
                 width={200}
                 height={200}
@@ -154,5 +155,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(FourthScreen);

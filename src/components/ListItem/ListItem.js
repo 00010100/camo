@@ -139,15 +139,15 @@ class ListItem extends Component {
   renderTitle = () => {
     if (this.props.activeStep === 1) {
       return (
-        <React.Fragment>
+        <div className="description">
           <h3 align="center" className="subtitle">
             Type in the answers for your section below.
           </h3>
           <small align="center">
-            Remember, don’t check your answers against the answer key yet. You don’t want to spoil
-            the camouflage!
+            Remember, {' '}<span className="bold">don’t check your answers against the answer key yet.</span>{' '} You don’t
+            want to spoil the camouflage!
           </small>
-        </React.Fragment>
+        </div>
       );
     }
 
@@ -194,5 +194,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { setMyAnswers },
+  { setMyAnswers }
 )(ListItem);

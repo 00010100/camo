@@ -16,11 +16,11 @@
   justify-content: flex-start;
 }
 
-.statistic-inner .lead {
+.statistic-inner .title {
   margin-right: 5px;
 }
 
-.statistic .lead {
+.statistic .title {
   font-weight: 700;
   color: #6bbbae;
 }

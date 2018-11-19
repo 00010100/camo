@@ -40,19 +40,21 @@ class FirstScreen extends Component {
     const { titles, sections } = this.props;
 
     return (
-      <div className="jumbotron">
-        <p className="lead">
+      <div className="jumbotron description">
+        <p className="lead bold">
           Camouflage Review is a new way to review your practice sections for maximum score
           improvement. It must be completed BEFORE you check your answers against the answer key.
         </p>
         <p className="lead">
           After completing a section (and before looking at the answer key), input your answers into
-          the Camouflage Review system and it will return a list of questions for you to revisit.
-          Some of these Camouflage Review questions are wrong answers, but some of them are
-          camouflaged correct answers lurking to test your confidence. On your second pass through
-          these questions you won't know how many you missed, so you'll be challenged to change your
-          answer or stay with your previous answer based only on your confidence in the answer you
-          chose.
+          the Camouflage Review system and it will return a list of questions for you to revisit.{' '}
+          <span className="bold">
+            Some of these Camouflage Review questions are wrong answers, but some of them are
+            camouflaged correct answers lurking to test your confidence.
+          </span>{' '}
+          On your second pass through these questions you won't know how many you missed, so you'll
+          be challenged to change your answer or stay with your previous answer based only on your
+          confidence in the answer you chose.
         </p>
 
         <p className="lead">
@@ -62,25 +64,36 @@ class FirstScreen extends Component {
           you analyze what’s causing your wrong answers:
         </p>
 
-        <p className="lead">
-          Wrong answers you miss again in Camouflage Review indicate conceptual gaps.
-        </p>
-        <p className="lead">Wrong answers you correct in Camouflage Review indicate a misread.</p>
-        <p className="lead">
-          Correct answers that you switch away from in Camouflage Review indicate self-doubt.
-        </p>
+        <ul>
+          <li>
+            <p className="lead">
+              Wrong answers you miss again in Camouflage Review indicate conceptual gaps.
+            </p>
+          </li>
+          <li>
+            <p className="lead">
+              Wrong answers you correct in Camouflage Review indicate a misread.
+            </p>
+          </li>
+          <li>
+            <p className="lead">
+              Correct answers that you switch away from in Camouflage Review indicate self-doubt.
+            </p>
+          </li>
+        </ul>
 
-        <p className="lead">
+        <p className="lead bold">
           Seeing these differences between your wrong answers is crucial to improving as much as
           possible from each practice section.
         </p>
 
         <p className="lead">
           There's no point in obsessing over a question you simply misread and quickly corrected;
-          those misses result from translation issues. But the questions you miss twice are gold
-          mines. They represent the gaps in your understanding of the test; dive into these
-          twice-missed questions and find out what conceptual gap is tripping you up. You can ensure
-          that you never make that same mistake again.
+          those misses result from translation issues. But{' '}
+          <span className="bold">the questions you miss twice are gold mines.</span> They represent
+          the gaps in your understanding of the test; dive into these twice-missed questions and
+          find out what conceptual gap is tripping you up. You can ensure that you never make that
+          same mistake again.
         </p>
 
         <p className="lead">Ready to start Camo Review? Choose your test and section to begin:</p>
@@ -96,5 +109,5 @@ class FirstScreen extends Component {
 
 export default connect(
   null,
-  { getIdxs },
+  { getIdxs }
 )(FirstScreen);

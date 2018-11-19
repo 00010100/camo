@@ -7,8 +7,8 @@ const StatisticBox = (props) => {
   return (
     <div className="statistic">
       <div className="statistic-inner">
-        <p className="lead">{`${props.title}:`}</p>
-        <p>{props.resultList}</p>
+        <p className="lead title">{`${props.title}:`}</p>
+        <p className="lead">{props.resultList}</p>
       </div>
       <small>{props.content}</small>
     </div>
