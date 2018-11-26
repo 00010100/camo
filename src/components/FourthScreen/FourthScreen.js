@@ -68,8 +68,6 @@ class FourthScreen extends Component {
       chartsValues,
     } = this.props;
 
-    console.log('wrongFirstPassAnswers', wrongFirstPassAnswers);
-
     return (
       <div className="jumbotron stat">
         <p className="lead">{`You missed ${wrongFirstPassAnswersLength} on your first pass through the section.`}</p>
@@ -117,7 +115,7 @@ class FourthScreen extends Component {
                 data={this.renderChart(
                   chartsValues.firstValue,
                   chartsValues.secondValue,
-                  ['Misread', 'Conceptual gaps'],
+                  ['Conceptual gaps', 'Misread'],
                   ['#00b386', '#008080'],
                   ['#009973', '#006666']
                 )}
@@ -134,7 +132,7 @@ class FourthScreen extends Component {
                 data={this.renderChart(
                   chartsValues.thirdValue,
                   chartsValues.fourthValue,
-                  ['Self-confidence', 'Self-doubt'],
+                  ['Self-doubt', 'Self-confidence'],
                   ['#00b386', '#008080'],
                   ['#009973', '#006666']
                 )}
