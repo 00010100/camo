@@ -33,7 +33,7 @@ export default class Dropdown extends Component {
     return (
       <div className="dropdown-container">
         <label align="center" style={{ width: `100%` }}>
-          Preptest:
+          PrepTest:
         </label>
         <select className="form-control" value={this.state.titleIndex} onChange={this.handleChange}>
           {this.renderOptions()}

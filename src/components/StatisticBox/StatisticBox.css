@@ -3,9 +3,25 @@
 }
 
 .statistic small {
-  font-size: 90%;
+  font-size: 18px;
 }
 
 .statistic {
   margin-bottom: 1rem;
+}
+
+.statistic-inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.statistic-inner .title {
+  margin-right: 5px;
+}
+
+.statistic .title {
+  font-weight: 700;
+  color: #6bbbae;
 }

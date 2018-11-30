@@ -26,20 +26,27 @@ class App extends Component {
   };
 
   getStepContent = (step) => {
+    if (
+      navigator.userAgent.indexOf('Chrome') === -1 &&
+      navigator.userAgent.indexOf('Safari') !== -1
+    ) {
+      window.scrollTo(0, 0);
+    }
+
     const { titles, sections } = this.props;
     const { activeStep } = this.state;
 
     switch (step) {
-    case 0:
-      return <FirstScreen titles={titles} sections={sections} nextStep={this.nextStep} />;
-    case 1:
-      return <ListItem key={activeStep} activeStep={activeStep} nextStep={this.nextStep} />;
-    case 2:
-      return <ListItem key={activeStep} activeStep={activeStep} nextStep={this.nextStep} />;
-    case 3:
-      return <FourthScreen />;
-    default:
-      throw new Error('Unknown step');
+      case 0:
+        return <FirstScreen titles={titles} sections={sections} nextStep={this.nextStep} />;
+      case 1:
+        return <ListItem key={activeStep} activeStep={activeStep} nextStep={this.nextStep} />;
+      case 2:
+        return <ListItem key={activeStep} activeStep={activeStep} nextStep={this.nextStep} />;
+      case 3:
+        return <FourthScreen />;
+      default:
+        throw new Error('Unknown step');
     }
   };
 
@@ -55,5 +62,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(App);

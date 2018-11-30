@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import './ListItem.css';
 import { setMyAnswers } from '../../actions';
-import { getQuestions, getCamouflageQuestions, getListOfReview } from '../../selectors';
+import { getQuestions, getClearCamouflageQuestions, getListOfReview } from '../../selectors';
 
 class ListItem extends Component {
   static propTypes = {
@@ -139,15 +139,16 @@ class ListItem extends Component {
   renderTitle = () => {
     if (this.props.activeStep === 1) {
       return (
-        <React.Fragment>
+        <div className="description">
           <h3 align="center" className="subtitle">
             Type in the answers for your section below.
           </h3>
           <small align="center">
-            Remember, don’t check your answers against the answer key yet. You don’t want to spoil
-            the camouflage!
+            Remember,{' '}
+            <span className="bold">don’t check your answers against the answer key yet.</span> You
+            don’t want to spoil the camouflage!
           </small>
-        </React.Fragment>
+        </div>
       );
     }
 
@@ -188,11 +189,11 @@ class ListItem extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  questions: props.activeStep === 1 ? getQuestions(state) : getCamouflageQuestions(state),
+  questions: props.activeStep === 1 ? getQuestions(state) : getClearCamouflageQuestions(state),
   listOfReview: getListOfReview(state),
 });
 
 export default connect(
   mapStateToProps,
-  { setMyAnswers },
+  { setMyAnswers }
 )(ListItem);

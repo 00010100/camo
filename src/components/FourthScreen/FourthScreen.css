@@ -1,11 +1,26 @@
 .chart-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 30px;
+}
+
+.chart-section {
+  margin: 0 10px;
+}
+
+.jumbotron.stat h2 {
+  font-weight: 700;
+  color: #6bbbae;
 }
 
 .chart-container canvas:first-child {
   margin-right: 22px;
+}
+
+@media only screen and (max-width: 768px) {
+  .jumbotron.stat h2 {
+    font-size: 2rem;
+  }
 }
 
 @media only screen and (max-width: 480px) {

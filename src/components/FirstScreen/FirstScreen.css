@@ -1,5 +1,3 @@
-@media only screen and (max-width: 768px) {
-  .title {
-    font-size: 36px;
-  }
+.description .bold {
+  font-weight: 700;
 }

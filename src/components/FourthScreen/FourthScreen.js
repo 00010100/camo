@@ -20,12 +20,14 @@ const options = {
     callbacks: {
       label: (tooltipItem, data) => {
         const dataset = data.datasets[tooltipItem.datasetIndex];
+        const labelset = data.labels[tooltipItem.index];
+
         const total = dataset.data.reduce(
-          (previousValue, currentValue) => previousValue + currentValue,
+          (previousValue, currentValue) => previousValue + currentValue
         );
         const currentValue = dataset.data[tooltipItem.index];
         const percentage = Math.floor((currentValue / total) * 100 + 0.5);
-        return percentage + '%';
+        return `${labelset}: ${percentage}%`;
       },
     },
   },
@@ -34,8 +36,10 @@ const options = {
 class FourthScreen extends Component {
   static propTypes = {
     wrongFirstPassAnswers: PropTypes.string.isRequired,
-    wrongFirstPassAnswersLength: PropTypes.number.isRequired,
-    wrongSecondPassAnswersLength: PropTypes.number.isRequired,
+    wrongFirstPassAnswersLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
+    wrongSecondPassAnswersLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
     decoysList: PropTypes.string.isRequired,
     statistics: PropTypes.objectOf(PropTypes.string).isRequired,
     chartsValues: PropTypes.objectOf(PropTypes.number).isRequired,
@@ -64,17 +68,15 @@ class FourthScreen extends Component {
       chartsValues,
     } = this.props;
 
-    console.log('wrongFirstPassAnswersLength', wrongFirstPassAnswersLength);
-
     return (
-      <div className="jumbotron">
+      <div className="jumbotron stat">
         <p className="lead">{`You missed ${wrongFirstPassAnswersLength} on your first pass through the section.`}</p>
         <p className="lead">{`Real Wrong Answers: ${wrongFirstPassAnswers}`}</p>
         <p className="lead">{`Decoys: ${decoysList}`}</p>
 
         <hr className="my-4" />
 
-        <h2 align="center">Your Camouflage Review Results:</h2>
+        <h2 align="center">Your Camouflage Review Results</h2>
 
         <p className="lead">{`You missed ${wrongSecondPassAnswersLength} questions on your camouflage review.`}</p>
 
@@ -106,32 +108,33 @@ class FourthScreen extends Component {
         />
 
         <div className="chart-container">
-          <div className="chart-section">
-            <p>WRONG ANSWER PROFILE</p>
-            <Pie
-              data={this.renderChart(
-                chartsValues.firstValue,
-                chartsValues.secondValue,
-                ['Misread', 'Conceptual gaps'],
-                ['#00b386', '#008080'],
-                ['#006666', '#009973'],
-              )}
-              width={200}
-              height={200}
-              options={options}
-            />
-          </div>
-          {chartsValues.thirdValue !== undefined &&
-            chartsValues.fourthValue !== undefined && (
+          {typeof wrongFirstPassAnswersLength !== 'string' && (
+            <div className="chart-section">
+              <p>WRONG ANSWER PROFILE</p>
+              <Pie
+                data={this.renderChart(
+                  chartsValues.firstValue,
+                  chartsValues.secondValue,
+                  ['Conceptual gaps', 'Misread'],
+                  ['#00b386', '#008080'],
+                  ['#009973', '#006666']
+                )}
+                width={200}
+                height={200}
+                options={options}
+              />
+            </div>
+          )}
+          {chartsValues.thirdValue !== undefined && chartsValues.fourthValue !== undefined && (
             <div className="chart-section">
               <p>CORRECT ANSWER PROFILE</p>
               <Pie
                 data={this.renderChart(
                   chartsValues.thirdValue,
                   chartsValues.fourthValue,
-                  ['Self-confidence', 'Self-doubt'],
-                  ['#008080', '#00b386'],
-                  ['#009973', '#006666'],
+                  ['Self-doubt', 'Self-confidence'],
+                  ['#00b386', '#008080'],
+                  ['#009973', '#006666']
                 )}
                 width={200}
                 height={200}
@@ -156,5 +159,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(FourthScreen);

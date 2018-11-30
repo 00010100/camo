@@ -14,11 +14,11 @@ export const getRightAnswers = createSelector(
   (questions, indexes) => {
     const questionsRaw = questions[indexes.sectionIndex][indexes.titleIndex];
     const defaultAnswers = _.toPlainObject(questionsRaw.split(/\s+(?=\d)/));
-
+    
     let rightAnswers = {};
 
     for (let key in defaultAnswers) {
-      const el = defaultAnswers[key];
+      const el = defaultAnswers[key].trim();
       rightAnswers[key] = el.substring(el.length - 1);
     }
 
